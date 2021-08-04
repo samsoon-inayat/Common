@@ -17,13 +17,15 @@ else
         ind = 1; ind_val = 1;
         for gg = 1:length(num_groups)
             for ii = 1:length(unique_conds1)
-                xdata(ind,1) = ind_val;
-                mVarA(gg,ii) = mVar(ind);
+%                 xdata(ind,1) = ind_val;
+                mVarA(ind) = mVar(ind);
+                semVarA(ind) = semVar(ind);
                 ind = ind + 1;
-                ind_val = ind_val + gaps(1);
+%                 ind_val = ind_val + gaps(1);
             end
-            ind_val = ind_val + gaps(2);
+%             ind_val = ind_val + gaps(2);
         end
+        xdata = 1:size(mVarA,2);
         colors = mData.colors(1:length(unique_conds1));
         colors = repmat(colors,length(num_groups),1);
     end
