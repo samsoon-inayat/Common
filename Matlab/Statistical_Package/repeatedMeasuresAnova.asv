@@ -61,6 +61,13 @@ out.mcs_lsd = mcs_lsd;
 out.mcs_wf = mcs_bonferroni_wf;
 out.mcs_lsd_wf = mcs_lsd_wf;
 
+if length(within_factors) > 1
+    for ii = 1:length(within_factors)
+           cmdTxt = sprintf('populate_combs_and_ps(rm,out.pooled.wf_%s.est_margmean,mcs_bonferroni,1);',within_factors{ii}); eval(cmdTxt);
+           cmdTxt = sprintf('out.pooled.wf_%s.group_stats = group_stats_wf_temp;',within_factors{ii}); eval(cmdTxt);
+    end
+end
+
 % out.sig_mcs = find_sig_mcs(mcs);
 
 
