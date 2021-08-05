@@ -1,4 +1,4 @@
-function [ha,hb,hca,varargout] = plotAverageDistributions (distD,varargin)
+function [ha,hb,hca,xs] = plotAverageDistributions (distD,varargin)
 hb = NaN; hca = NaN; ha = NaN;
 p = inputParser;
 default_colors = distinguishable_colors(20);
@@ -39,6 +39,7 @@ else
 end
 
 bins = (minB+incr):incr:(maxB-incr);
+bins = minB:incr:maxB;
 % else
 %     bins = incr:incr:(maxB-incr);
 % end
@@ -65,7 +66,6 @@ bins = (minB+incr):incr:(maxB-incr);
 %     if nargout == 4
 %         varargout{1} = sigR;
 %     end
-    
     axes(ha);
     if ~isempty(legs)
         putLegend(gca,legs,'colors',cols);
