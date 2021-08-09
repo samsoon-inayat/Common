@@ -32,6 +32,9 @@ if length(within_factors) > 1
            cmdTxt = sprintf('out.pooled.wf_%s.est_margmean = est_margmean_wf_temp;',within_factors{ii}); eval(cmdTxt);
            cmdTxt = sprintf('out.pooled.wf_%s.group_stats = group_stats_wf_temp;',within_factors{ii}); eval(cmdTxt);
     end
+    if length(within_factors) == 2
+        
+    end
 end
 if ~isempty(between_factors)
     [est_margmean_bf,group_stats_bf] = get_est_margmean_and_group_stats(rm,between_factors);
