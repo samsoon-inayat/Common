@@ -75,6 +75,25 @@ if length(all_factors) == 2
     colors = repmat(colors,length(num_groups)*length(unique_conds1),1);
 end
 if length(all_factors) == 3
-    error
+    unique_conds1 = uvals{1};
+    unique_conds2 = uvals{2};
+    unique_conds3 = uvals{3};
+    ind = 1; ind_val = 1;
+    for gg = 1:length(num_groups)
+        for ii = 1:length(unique_conds1)
+            for jj = 1:length(unique_conds2)
+                for kk = 1:length(unique_conds3)
+                    xdata(ind,1) = ind_val;
+                    ind = ind + 1;
+                    ind_val = ind_val + gaps(1);
+                end
+            end
+            ind_val = ind_val + gaps(2);
+        end
+        ind_val = ind_val + gaps(3);
+    end
+    colors = mData.colors(1:length(unique_conds3));
+    colors = repmat(colors,length(num_groups)*length(unique_conds1)*length(unique_conds2),1);
+    n = 0;
 end
 

@@ -1,6 +1,6 @@
 function [xdata,mVar,semVar,combs,p,h,colors,hollowsep] = get_vals_for_bar_graph(mData,ra,pooled,gaps)
 hollowsep = [];
-if ~iscell(pooled)
+if pooled%~iscell(pooled)
     cmdTxt = sprintf('mVar = ra.pooled.wf_%s.est_margmean.Mean;semVar = ra.pooled.wf_%s.est_margmean.Formula_StdErr',pooled{1},pooled{1});eval(cmdTxt)
     combs = ra.mcs.combs; p = ra.mcs.p; h = ra.mcs.p < 0.05;
 else

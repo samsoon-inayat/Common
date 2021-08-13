@@ -4,7 +4,7 @@ if ~exist('alpha','var')
 end
 [between_factors,nbf] = get_between_factors(between);
 nwf = size(within,2);
-if nbf > 1 || nwf > 2
+if nbf > 1 || nwf > 3
     disp('number of between factors <=1 or number of within factors <=2');
     error;
 end
@@ -24,10 +24,12 @@ out.ranova = rm.ranova('WithinModel',rm.WithinModel);
 % would be Type_Dominance
 %*********************
 all_factors = [between_factors within_factors];
-[out.EM,out.GS] = get_EM_GS(rm); % est_marg_means
+[out.EM,out.GS] = get_EM_GS(rm,within_factors); % est_marg_means
 out.MC = do_MC(rm,alpha); % all multiple comparisons
-out = populate_combs_ps(out);
 out.all_factors = all_factors';
+% if nwf <= 2
+out = populate_combs_ps(out);
+% end
 % mcs_bonferroni = populate_combs_and_ps(rm,est_margmean,mcs_bonferroni,0);
 % mcs_lsd = populate_combs_and_ps(rm,est_margmean,mcs_lsd,0);
 % mcs_bonferroni_wf = populate_combs_and_ps(rm,est_margmean_wf,mcs_bonferroni,1);
@@ -67,15 +69,30 @@ wilk_text = [wilk_text between_term];
 function [within,within_model] = build_within_design_and_model(within)
 nwf = size(within,2);
 within_factors = within.Properties.VariableNames;
+if nwf == 3
+    combs = nchoosek(1:3,2);
+    for ii = 1:size(combs,1)
+        f = combs(ii,1); s = combs(ii,2);
+        cmdTxt = sprintf('within.%s_%s = within.%s.*within.%s;',within_factors{f},within_factors{s},within_factors{f},within_factors{s});
+        eval(cmdTxt);
+    end
+    cmdTxt = sprintf('within.%s_%s_%s = within.%s.*within.%s.*within.%s;',within_factors{1},within_factors{2},within_factors{3},within_factors{1},within_factors{2},within_factors{3});
+    eval(cmdTxt);
+    within_factors = within.Properties.VariableNames;
+end
 if nwf == 2
     cmdTxt = sprintf('within.%s_%s = within.%s.*within.%s;',within_factors{1},within_factors{2},within_factors{1},within_factors{2});
     eval(cmdTxt);
     within_factors = within.Properties.VariableNames;
 end
+if nwf == 1
+    within_model = within_factors{1};
+end
 if nwf == 2
     within_model = [within_factors{1} '*' within_factors{2}];
-else
-    within_model = within_factors{1};
+end
+if nwf == 3
+    within_model = [within_factors{1} '*' within_factors{2} '*' within_factors{3}];
 end
 
 function [between_factors,nbf] = get_between_factors(between)
@@ -91,18 +108,33 @@ for ii = 1:length(b_varNames)
     end
 end
 
-function [EM,GS] = get_EM_GS(rm)
+function [EM,GS] = get_EM_GS(rm,within_factors)
 all_factors = [rm.BetweenFactorNames rm.WithinFactorNames];
-f_combs = nchoosek(1:length(all_factors),2);
+all_factors1 = [rm.BetweenFactorNames within_factors];
 for ii = 1:length(all_factors)
     cmdTxt = sprintf('[EM.%s GS.%s] = get_est_margmean_and_group_stats(rm,all_factors(ii));',all_factors{ii},all_factors{ii}); eval(cmdTxt);
 end
-for ii = 1:size(f_combs,1)
-%     ii
-    fac1 = all_factors{f_combs(ii,1)}; fac2 = all_factors{f_combs(ii,2)};
-    try
-        cmdTxt = sprintf('[EM.%s_by_%s GS.%s_by_%s] = get_est_margmean_and_group_stats(rm,all_factors(f_combs(ii,:)));',fac1,fac2,fac1,fac2); eval(cmdTxt);
-    catch
+if length(all_factors) > 2
+    f_combs = nchoosek(1:length(all_factors),2);
+    for ii = 1:size(f_combs,1)
+    %     ii
+        fac1 = all_factors{f_combs(ii,1)}; fac2 = all_factors{f_combs(ii,2)};
+        try
+            cmdTxt = sprintf('[EM.%s_by_%s GS.%s_by_%s] = get_est_margmean_and_group_stats(rm,all_factors(f_combs(ii,:)));',fac1,fac2,fac1,fac2); eval(cmdTxt);
+        catch
+        end
+    end
+end
+
+if length(all_factors) > 3
+    f_combs = nchoosek(1:length(all_factors),3);
+    for ii = 1:size(f_combs,1)
+    %     ii
+        fac1 = all_factors{f_combs(ii,1)}; fac2 = all_factors{f_combs(ii,2)}; fac3 = all_factors{f_combs(ii,3)};
+        try
+            cmdTxt = sprintf('[EM.%s_by_%s_by_%s GS.%s_by_%s_by_%s] = get_est_margmean_and_group_stats(rm,all_factors(f_combs(ii,:)));',fac1,fac2,fac3,fac1,fac2,fac3); eval(cmdTxt);
+        catch
+        end
     end
 end
 
@@ -117,8 +149,8 @@ est_margmean.Properties.VariableNames{cemm+1} = 'Formula_StdErr';
 
 function MC = do_MC(rm,alpha)
 MC.bonferroni = do_multiple_comparisons(rm,'bonferroni',alpha);
-MC.lsd = do_multiple_comparisons(rm,'lsd',alpha);
-MC.tukey_kramer = do_multiple_comparisons(rm,'tukey-kramer',alpha);
+% MC.lsd = do_multiple_comparisons(rm,'lsd',alpha);
+% MC.tukey_kramer = do_multiple_comparisons(rm,'tukey-kramer',alpha);
 
 function mcs = do_multiple_comparisons(rm,comparison_type,alpha)
 all_factors = [rm.BetweenFactorNames rm.WithinFactorNames];
@@ -129,12 +161,15 @@ for ii = 1:length(all_factors)
 end
 if length(all_factors) > 1
     combs = flipud(perms(1:length(all_factors)));
-    combs = combs(:,1:2);
+%     combs = combs(:,1:2);
+    combs = unique(combs(:,[1 2]),'rows');
+%     combs = nchoosek(1:length(all_factors),2);
     for ii = 1:size(combs,1)
         ind1 = combs(ii,1); ind2 = combs(ii,2);
         nameOfVariable = sprintf('mcs.%s_by_%s',all_factors{ind1},all_factors{ind2});
         rhs = sprintf('multcompare(rm,all_factors{ind1},''By'',all_factors{ind2},''ComparisonType'',''%s'',''Alpha'',%d);',comparison_type,alpha);
-        cmdTxt = sprintf('%s = %s;',nameOfVariable,rhs); eval(cmdTxt)
+        cmdTxt = sprintf('%s = %s;',nameOfVariable,rhs); 
+        eval(cmdTxt);
     end
 end
 
@@ -149,7 +184,14 @@ for ii = 1:length(fields)
     cmdTxt = sprintf('est_margmean = EMs.%s;',fields{ii}); eval(cmdTxt);
     for jj = 1:length(fieldsMC)
         cmdTxt = sprintf('mcs = MC.%s;',fieldsMC{jj}); eval(cmdTxt);
-        cmdTxt = sprintf('[combs{ii,jj},p{ii,jj}] = populate_combs_and_ps(rm,est_margmean,mcs);'); eval(cmdTxt);
+        cmdTxt = sprintf('[combs{ii,jj},p{ii,jj}] = populate_combs_and_ps(rm,est_margmean,mcs);'); 
+        try
+            eval(cmdTxt);
+        catch
+            combs{ii,jj} = NaN;
+            p{ii,jj} = NaN;
+            disp('Combs ps error');
+        end
     end
 end
 out.combs = combs;
