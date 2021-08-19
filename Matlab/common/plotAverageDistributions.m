@@ -14,6 +14,7 @@ addOptional(p,'barGraph',{},@iscell);
 addOptional(p,'legend',{},@iscell);
 addOptional(p,'BaseValue',0.2,@isnumeric);
 addOptional(p,'do_mean','Yes');
+addOptional(p,'pdf_or_cdf','cdf');
 parse(p,distD,varargin{:});
 
 cols = p.Results.colors;
@@ -23,6 +24,7 @@ barGraph = p.Results.barGraph;
 legs = p.Results.legend;
 bv = p.Results.BaseValue;
 do_mean = p.Results.do_mean;
+pdf_or_cdf = p.Results.pdf_or_cdf;
 
 if p.Results.min ~= -inf
     minB = p.Results.min;
@@ -56,8 +58,12 @@ bins = minB:incr:maxB;
 %             [bar1 xs] = hist(bd,bins); bar1 = 100*bar1/length(bd);
             allBars = [allBars;bar1];
         end
+        if strcmp(pdf_or_cdf,'cdf');
         [mDist,semDist] = findMeanAndStandardError(cumsum(allBars,2));
-%         [mDist,semDist] = findMeanAndStandardError(allBars);
+        end
+        if strcmp(pdf_or_cdf,'pdf');
+            [mDist,semDist] = findMeanAndStandardError(allBars);
+        end
         shadedErrorBar(bins,mDist,semDist,{'color',cols{dd},'linewidth',0.25},0.7);
     end
     ha = gca;
