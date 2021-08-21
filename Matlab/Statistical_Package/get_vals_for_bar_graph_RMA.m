@@ -1,5 +1,7 @@
-function [xdata,mVar,semVar,combs,p,h,colors,hollowsep] = get_vals_for_bar_graph_RMA(mData,ra,facs,gaps)
+function [xdata,mVar,semVar,combs,p,h,colors,xlabels] = get_vals_for_bar_graph_RMA(mData,ra,facs,gaps)
 hollowsep = [];
+
+mData.colors = [mData.colors;mData.colors];
 
 facname = facs{1};
 ttype = facs{2};
@@ -20,6 +22,14 @@ h = p < 0.05;
 cmdTxt = sprintf('EM = ra.EM.%s;',facname); eval(cmdTxt);
 ind = find(strcmp(EM.Properties.VariableNames,'Mean'));
 all_factors = EM.Properties.VariableNames(1:(ind-1));
+
+for ii = 1:size(EM,1)
+    txt = '';
+    for jj = 1:length(all_factors)
+        txt = [txt ' ' all_factors{jj} '_' char(EM{ii,jj})];
+    end
+    xlabels{ii} = txt;
+end
 
 if isempty(find(strcmp(all_factors,'Group')))
     num_groups = 1;
