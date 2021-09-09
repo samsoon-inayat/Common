@@ -149,8 +149,8 @@ est_margmean.Properties.VariableNames{cemm+1} = 'Formula_StdErr';
 
 function MC = do_MC(rm,alpha)
 MC.bonferroni = do_multiple_comparisons(rm,'bonferroni',alpha);
-% MC.lsd = do_multiple_comparisons(rm,'lsd',alpha);
-% MC.tukey_kramer = do_multiple_comparisons(rm,'tukey-kramer',alpha);
+MC.lsd = do_multiple_comparisons(rm,'lsd',alpha);
+MC.tukey_kramer = do_multiple_comparisons(rm,'tukey-kramer',alpha);
 
 function mcs = do_multiple_comparisons(rm,comparison_type,alpha)
 all_factors = [rm.BetweenFactorNames rm.WithinFactorNames];

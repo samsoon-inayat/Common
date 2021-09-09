@@ -78,10 +78,7 @@ bins = minB:incr:maxB;
                 hb(ii) = hb1;
             end
         end
-        mVals(dd,:) = mDist;
-        semVals(dd,:) = semDist;
     end
-    xs = bins;
     ha = gca;
 %     sigR = significanceTesting(distD);
     
