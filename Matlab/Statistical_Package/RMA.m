@@ -18,6 +18,23 @@ out.number_of_within_factors = nwf;
 out.rm = rm;
 out.mauchly = mauchly(rm);
 out.ranova = rm.ranova('WithinModel',rm.WithinModel);
+ranovatbl = out.ranova;
+out.eta2 = ranovatbl.SumSq(1)/(ranovatbl.SumSq(2)+ranovatbl.SumSq(1));
+sph = out.mauchly;
+if sph.pValue>=0.05
+    colVal = 5;
+else
+    ep = epsilon(rm);
+    if ep.GreenhouseGeisser>0.75
+        colVal = 7;
+    else
+        colVal = 6;
+    end
+end
+col = ranovatbl(:,colVal);
+ranovatbl(:,size(ranovatbl,2)+1) = col; ranovatbl.Properties.VariableNames{end} = sprintf('%s_sel',col.Properties.VariableNames{1});
+out.ranova = ranovatbl;
+
 %*********************
 % if within_factors are 2 then in the updated within table there is
 % interaction term as well e.g., Type and Dominance ... thenlast column
@@ -148,9 +165,10 @@ est_margmean{:,cemm+1} = grp_stats{:,end};
 est_margmean.Properties.VariableNames{cemm+1} = 'Formula_StdErr';
 
 function MC = do_MC(rm,alpha)
-MC.bonferroni = do_multiple_comparisons(rm,'bonferroni',alpha);
-MC.lsd = do_multiple_comparisons(rm,'lsd',alpha);
-MC.tukey_kramer = do_multiple_comparisons(rm,'tukey-kramer',alpha);
+% MC.bonferroni = do_multiple_comparisons(rm,'bonferroni',alpha);
+% MC.lsd = do_multiple_comparisons(rm,'lsd',alpha);
+% MC.tukey_kramer = do_multiple_comparisons(rm,'tukey-kramer',alpha);
+MC.hsd = do_multiple_comparisons(rm,'hsd',alpha);
 
 function mcs = do_multiple_comparisons(rm,comparison_type,alpha)
 all_factors = [rm.BetweenFactorNames rm.WithinFactorNames];

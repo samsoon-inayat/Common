@@ -1,6 +1,6 @@
 function prT = ranovaFLHL(annovaVar)
 % run repeated measure anova on data from FL or HL stim
-
+annovaVar = rand(5,4);
 animals = {'animal 1','animal 2','animal 3','animal 4','animal 5'}';
 subnetworks = {'SCC', 'L', 'M', 'H'};
 t = table(animals,annovaVar(:,1),annovaVar(:,2),annovaVar(:,3),annovaVar(:,4),...
