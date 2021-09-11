@@ -222,8 +222,8 @@ fieldsMC = fieldnames(MC);
 for ii = 1:length(fields)
     cmdTxt = sprintf('est_margmean = EMs.%s;',fields{ii}); eval(cmdTxt);
     for jj = 1:length(fieldsMC)
-        if ii == 4
-            n = 0;
+        if ii == 5
+            n = 0
         end
         cmdTxt = sprintf('mcs = MC.%s;',fieldsMC{jj}); eval(cmdTxt);
         cmdTxt = sprintf('[combs{ii,jj},p{ii,jj}] = populate_combs_and_ps(rm,est_margmean,mcs);'); 
@@ -237,12 +237,7 @@ for ii = 1:length(fields)
     end
 end
 out.combs = combs;
-% out.ps = p;
-% if out.number_of_between_factors == 0 && out.number_of_within_factors == 2
-%     WD = out.rm.WithinDesign;
-%     n = 0;
-% end
-
+out.ps = p;
 
 function [combs,p] = populate_combs_and_ps(rm,est_margmean,mcs)
 combs = nchoosek(1:size(est_margmean,1),2); p = ones(size(combs,1),1);
@@ -277,11 +272,7 @@ if length(all_factors) == 2
     if nbf == 0
         factor1 = all_factors{1};
         factor2 = all_factors{2};
-        try
-            cmdTxt = sprintf('mc_tbl = mcs.%s_%s;',factor1,factor2); eval(cmdTxt);
-        catch
-            cmdTxt = sprintf('mc_tbl = mcs.%s_by_%s;',factor1,factor2); eval(cmdTxt);
-        end
+        cmdTxt = sprintf('mc_tbl = mcs.%s_%s;',factor1,factor2); eval(cmdTxt);
         for rr = 1:size(combs,1)
             row1 = combs(rr,1); row2 = combs(rr,2);
             with_level_1_1 = est_margmean{row1,1};
