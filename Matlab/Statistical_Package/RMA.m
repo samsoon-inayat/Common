@@ -187,7 +187,11 @@ function MC = do_MC(rm,alpha,posthoc)
 % MC.lsd = do_multiple_comparisons(rm,'lsd',alpha);
 % MC.tukey_kramer = do_multiple_comparisons(rm,'tukey-kramer',alpha);
 for ii = 1:length(posthoc)
-    cmdTxt = sprintf('MC.%s = do_multiple_comparisons(rm,''%s'',alpha);',posthoc{ii},posthoc{ii});
+    if strcmp(posthoc{ii},'tukey-kramer')
+        cmdTxt = sprintf('MC.tukey_kramer = do_multiple_comparisons(rm,''%s'',alpha);',posthoc{ii},posthoc{ii});
+    else
+        cmdTxt = sprintf('MC.%s = do_multiple_comparisons(rm,''%s'',alpha);',posthoc{ii},posthoc{ii});
+    end
     eval(cmdTxt);
 end
 
@@ -237,7 +241,7 @@ for ii = 1:length(fields)
     end
 end
 out.combs = combs;
-% out.ps = p;
+out.ps = p;
 % if out.number_of_between_factors == 0 && out.number_of_within_factors == 2
 %     WD = out.rm.WithinDesign;
 %     n = 0;
@@ -275,26 +279,44 @@ end
 
 if length(all_factors) == 2
     if nbf == 0
+        WithinDesgin = rm.WithinDesign;
         factor1 = all_factors{1};
         factor2 = all_factors{2};
-        try
-            cmdTxt = sprintf('mc_tbl = mcs.%s_%s;',factor1,factor2); eval(cmdTxt);
-        catch
-            cmdTxt = sprintf('mc_tbl = mcs.%s_by_%s;',factor1,factor2); eval(cmdTxt);
-        end
+        indCol1 = find(strcmp(WithinDesgin.Properties.VariableNames,factor1));
+        indCol2 = find(strcmp(WithinDesgin.Properties.VariableNames,factor2));
+        cmdTxt = sprintf('mc_tbl = mcs.%s_%s;',factor1,factor2); eval(cmdTxt);
+        cmdTxt = sprintf('mc_tbl1 = mcs.%s_by_%s;',factor1,factor2); eval(cmdTxt);
+        cmdTxt = sprintf('mc_tbl2 = mcs.%s_by_%s;',factor2,factor1); eval(cmdTxt);
         for rr = 1:size(combs,1)
             row1 = combs(rr,1); row2 = combs(rr,2);
-            with_level_1_1 = est_margmean{row1,1};
-            with_level_2_1 = est_margmean{row1,2};
-            w12_1 = categorical(with_level_1_1).*categorical(with_level_2_1);
-            with_level_1_2 = est_margmean{row2,1};
-            with_level_2_2 = est_margmean{row2,2};
-            w12_2 = categorical(with_level_1_2).*categorical(with_level_2_2);
-            tmc = mc_tbl;
-            value_to_check = w12_1; row_col1 = tmc{:,1}==value_to_check;
-            value_to_check = w12_2; row_col2 = tmc{:,2}==value_to_check;
-            rowN = find(row_col1 & row_col2);
-            p(rr) = tmc{rowN,5};
+            row1V = WithinDesgin{row1,[1 2]}; row2V = WithinDesgin{row2,[1 2]};
+            if row1V(1) == row2V(1) && row1V(2) ~= row2V(2)
+                tmc1 = mc_tbl2;
+                ind = tmc1{:,1} == row1V(1) & ismember(tmc1{:,[2 3]},[row1V(2) row2V(2)],'rows') ;
+                p(rr) = tmc1{ind,6};
+                continue;
+            end
+            if row1V(1) ~= row2V(1) && row1V(2) == row2V(2)
+                tmc1 = mc_tbl1;
+                ind = tmc1{:,1} == row2V(2) & ismember(tmc1{:,[2 3]},[row1V(1) row2V(1)],'rows') ;
+                p(rr) = tmc1{ind,6};
+                continue;
+            end
+            if row1V(1) ~= row2V(1) && row1V(2) ~= row2V(2)
+                continue;
+                with_level_1_1 = est_margmean{row1,1};
+                with_level_2_1 = est_margmean{row1,2};
+                w12_1 = categorical(with_level_1_1).*categorical(with_level_2_1);
+                with_level_1_2 = est_margmean{row2,1};
+                with_level_2_2 = est_margmean{row2,2};
+                w12_2 = categorical(with_level_1_2).*categorical(with_level_2_2);
+                tmc = mc_tbl;
+                value_to_check = w12_1; row_col1 = tmc{:,1}==value_to_check;
+                value_to_check = w12_2; row_col2 = tmc{:,2}==value_to_check;
+                rowN = find(row_col1 & row_col2);
+                p(rr) = tmc{rowN,5};
+                continue;
+            end
         end
     end
     if nbf == 1
