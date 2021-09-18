@@ -13,17 +13,20 @@ parse(p,figNum,figPos,varargin{:});
 magFac = 1;
 ff.hf = figure(figNum);clf;
 set(ff.hf,'Units','inches');
-if isnan(figPos(1))
-    tempPos = get(ff.hf,'Position');
-    figPos(1) = tempPos(1);
-    figPos(2) = tempPos(2);
-end
-if p.Results.reposition
-    figPos(3) = magFac*figPos(3); figPos(4) = magFac*figPos(4);
-    set(ff.hf,'Units','inches','Position',figPos,'MenuBar','none','ToolBar','none',...
-        'NumberTitle','on','Color','w','Resize','off',...
-        'NextPlot','add');
-end
+% if isnan(figPos(1))
+%     tempPos = get(ff.hf,'Position');
+%     figPos(1) = tempPos(1);
+%     figPos(2) = tempPos(2);
+% end
+% if p.Results.reposition
+%     figPos(3) = magFac*figPos(3); figPos(4) = magFac*figPos(4);
+%     set(ff.hf,'Units','inches','Position',figPos,'MenuBar','none','ToolBar','none',...
+%         'NumberTitle','on','Color','w','Resize','off',...
+%         'NextPlot','add');
+% end
+
+set(gcf,'color','w'); set(gcf,'Position',figPos);
+
 
 nRows = p.Results.RowsCols(1);
 nCols = p.Results.RowsCols(2);
