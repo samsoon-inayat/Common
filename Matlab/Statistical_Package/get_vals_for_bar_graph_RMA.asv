@@ -108,25 +108,15 @@ if length(all_factors) == 3
 end
 
 pvalsTable = nan(length(mVar),length(mVar));
-pvalsTableT = cell(length(mVar),length(mVar));
 for ii = 1:size(combs,1)
     pvalsTable(combs(ii,1),combs(ii,2)) = p(ii);
 end
 for rr = 1:size(pvalsTable,1)
     for cc = 1:size(pvalsTable,2)
-        if isnan(pvalsTable(rr,cc))
-           pvalsTableT{rr,cc} = '';
-        else
-            ast = getNumberOfAsterisks(pvalsTable(rr,cc));
-            if strcmp(ast,'ns')
-                pvalsTableT{rr,cc} = '';%sprintf('%.3f',pvalsTable(rr,cc));
-            else
-                pvalsTableT{rr,cc} = sprintf('%.3f (%s)',pvalsTable(rr,cc),ast);
-                pvalsTableT{rr,cc} = sprintf('%.3f',pvalsTable(rr,cc));
-            end
-        end
+        if pvalsTable(
     end
 end
+
 pvalsTableTxt = table(pvalsTable);
 extras.pvalsTable = pvalsTable;
-extras.pvalsTableTxt = pvalsTableT;
+extras.pvalsTableTxt = pvalsTableTxt;
