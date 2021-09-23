@@ -21,6 +21,7 @@ addOptional(p,'BaseValue',0.3);
 addOptional(p,'barwidth',0.8);
 addOptional(p,'sigLinesStartYFactor',0.1);
 addOptional(p,'xdata',1:length(means));
+addOptional(p,'capsize',3);
 parse(p,means,sems,combs,sig,varargin{:});
 
 cols = p.Results.colors;
@@ -35,6 +36,7 @@ sigAsteriskFontSize = p.Results.sigAsteriskFontSize;
 sigFontSize = p.Results.sigFontSize;
 bv = p.Results.BaseValue;
 xdata = p.Results.xdata;
+capsize = p.Results.capsize;
 xdatai = xdata;
 barwidth = p.Results.barwidth;
 
@@ -43,7 +45,7 @@ for ii = 1:length(xdata)
 %     hb = bar(xdata(ii),means(ii),'BaseValue',bv,'ShowBaseline','off','barwidth',barwidth);
     hb = bar_patch(xdata(ii),means(ii),sems(ii),barwidth);
     set(hb,'FaceColor',cols{ii},'EdgeColor',cols{ii});
-    errorbar(xdata(ii), means(ii), sems(ii), 'k', 'linestyle', 'none','CapSize',3);
+    errorbar(xdata(ii), means(ii), sems(ii), 'k', 'linestyle', 'none','CapSize',capsize);
 %     errorbar(xdata(ii), means(ii), [],sems(ii), 'k', 'linestyle', 'none','CapSize',3);
 %     errorbar(xdata(ii), means(ii), sems(ii),[], 'w', 'linestyle', 'none','CapSize',3);
     hbs(ii) = hb;
