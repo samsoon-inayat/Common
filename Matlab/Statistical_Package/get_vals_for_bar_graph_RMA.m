@@ -111,6 +111,7 @@ pvalsTable = nan(length(mVar),length(mVar));
 pvalsTableT = cell(length(mVar),length(mVar));
 for ii = 1:size(combs,1)
     pvalsTable(combs(ii,1),combs(ii,2)) = p(ii);
+    pvalsTable(combs(ii,2),combs(ii,1)) = p(ii);
 end
 for rr = 1:size(pvalsTable,1)
     for cc = 1:size(pvalsTable,2)

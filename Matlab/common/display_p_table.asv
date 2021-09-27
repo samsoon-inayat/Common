@@ -37,8 +37,8 @@ ii = 1;v1 = hbs(ii).Vertices(1);     v2 = hbs(ii).Vertices(2);
 [BRx BRy1] = ds2nfu(xlims(1),v2);    [BLx BLy1] = ds2nfu(xlims(1),v1);
 
 ii = length(hbs);v1 = hbs(ii).Vertices(1);     v2 = hbs(ii).Vertices(2);
-[BRx1,~] = ds2nfu(v2,xlims(1));     % figure coordinates lower right of bar
-[~,BRy] = ds2nfu(xlims(1),xlims(2));    [BLx BLy2] = ds2nfu(xlims(1),v1);
+[BRx1 BRy] = ds2nfu(v2,xlims(1));     % figure coordinates lower right of bar
+[BRx BRy] = ds2nfu(xlims(1),v2);    [BLx BLy2] = ds2nfu(xlims(1),v1);
 aH = BRy - BLy;
 % aW1 = (BRx1 - BLx1);
 
@@ -56,9 +56,7 @@ for ii = 1:length(hbs)
     aH1 = (BRy-BLy); % height of bar is top left - bottom left (subtraction of y coordinates)
     annotation('rectangle',[BLx BLy aW1 aH1],'facealpha',0.2,'linestyle','none','facecolor','k');
     lv(ii) = v1;
-    lvc(ii) = v1 + (v2-v1)/1.5;
-    lvc1(ii) = v1 + (v2-v1)/10;
-%     lv2(ii) = v2;
+    lvc(ii) = v1 + (v2-v1)/2;
 end
 
 
@@ -68,7 +66,7 @@ for rr = 1:size(ptable,1)
             continue;
         end
         nast = getNumberOfAsterisks(ptable(rr,cc));
-        xv = lvc(cc); yv = lvc1(rr);%xdata(rr);
+        xv = lvc(cc); yv = lv(rr);%xdata(rr);
         ht = text(xv,yv,nast,'FontSize',4,'Color',[0.5 0.5 0.5]);
         ex = ht.Extent;
         nxv = xv - ex(3)/2;
@@ -78,4 +76,3 @@ for rr = 1:size(ptable,1)
         n = 0;
     end
 end
-
