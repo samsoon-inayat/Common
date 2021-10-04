@@ -71,7 +71,7 @@ for rr = 1:size(ptable,1)
         xv = lvc(cc); yv = lvc1(rr);%xdata(rr);
         ht = text(xv,yv,nast,'FontSize',4,'Color',[0.5 0.5 0.5]);
         ex = ht.Extent;
-        nxv = xv - ex(3)/2;
+        nxv = xv - ex(3)/1.5;
         nyv = yv - ex(4)/2;
         delete(ht);
         ht = text(nxv,yv,nast,'FontSize',4,'Color',[0.5 0.5 0.5]);
