@@ -1,4 +1,8 @@
 function ha1 = display_p_table(ha,hbs,pos,pvt,props)
+
+mask = triu(nan(size(pvt))); mask(mask==0) = 1;
+pvt = pvt.*mask;
+
 xlims = get(ha,'xlim');
 xdata = get(ha,'xtick');
 xticklabels  = get(ha,'xticklabels');
@@ -13,11 +17,11 @@ for rr = 1:size(ptable,1)
         end
         nast = getNumberOfAsterisks(ptable(rr,cc));
         xv = xdata(rr); yv = xdata(cc);
-        text(xv,yv,nast,'FontSize',5,'Color',[0.5 0.5 0.5]);
+        text(xv,yv,nast,'FontSize',6,'Color',[0.5 0.5 0.5]);
     end
 end
 ha1.XColor = [0.5 0.5 0.5]; ha1.YColor = [0.5 0.5 0.5];
-ha1.XAxis.Visible = 'Off'; ha1.FontSize = 5;
+ha1.XAxis.Visible = 'Off'; ha1.FontSize = 5.5;
 
 vend = xlims(2);
 axes(ha1);cla
@@ -69,12 +73,12 @@ for rr = 1:size(ptable,1)
         end
         nast = getNumberOfAsterisks(ptable(rr,cc));
         xv = lvc(cc); yv = lvc1(rr);%xdata(rr);
-        ht = text(xv,yv,nast,'FontSize',5,'Color',[0.5 0.5 0.5]);
+        ht = text(xv,yv,nast,'FontSize',6,'Color',[0.5 0.5 0.5]);
         ex = ht.Extent;
         nxv = xv - ex(3)/1.5;
         nyv = yv - ex(4)/2;
         delete(ht);
-        ht = text(nxv,yv,nast,'FontSize',5,'Color',[0.5 0.5 0.5]);
+        ht = text(nxv,yv,nast,'FontSize',6,'Color',[0.5 0.5 0.5]);
         n = 0;
     end
 end
