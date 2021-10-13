@@ -1,7 +1,7 @@
-function ha1 = display_p_table(ha,hbs,pos,pvt,props)
+function ha1 = display_p_table_img(ha,hbs,pos,pvt,props)
 
 mask = triu(nan(size(pvt))); mask(mask==0) = 1;
-pvt = pvt.*mask;
+% pvt = pvt.*mask;
 
 xlims = get(ha,'xlim');
 xdata = get(ha,'xtick');
@@ -19,6 +19,18 @@ for rr = 1:size(ptable,1)
         nast = getNumberOfAsterisks(ptable(rr,cc));
         xv = xdata(rr); yv = xdata(cc);
         text(xv,yv,nast,'FontSize',6,'Color',[0.25 0.25 0.25]);
+        if strcmp(nast,'ns')
+            ptable_img(rr,cc) = 1;
+        end
+        if strcmp(nast,'*')
+            ptable_img(rr,cc) = 0.66;
+        end
+        if strcmp(nast,'**')
+            ptable_img(rr,cc) = 0.33;
+        end
+        if strcmp(nast,'**')
+            ptable_img(rr,cc) = 0;
+        end
     end
 end
 ha1.XColor = [0.25 0.25 0.25]; ha1.YColor = [0.25 0.25 0.25];
@@ -32,7 +44,9 @@ ylims = ylim;
 % [TLx TLy] = ds2nfu(hbs(1).Vertices(1),ylims(2)-0);
 % [BLx BLy] = ds2nfu(hbs(1).Vertices(1),ylims(1));
 % aH = (TLy - BLy);
-
+% imagesc(ptable_img);
+% colormap_ig
+% return;
 [TLx,~] = ds2nfu(xlims(2),hbs(1).Vertices(1)); % right-lower point of first horizontal bar
 [BLx,~] = ds2nfu(xlims(1),hbs(1).Vertices(1)); % left-lower point of first 
 aW1 = TLx - BLx;
@@ -54,7 +68,7 @@ for ii = 1:length(hbs)
     [BRx BRy] = ds2nfu(v2,xlims(1));     % figure coordinates lower right of bar
     [BLx BLy] = ds2nfu(v1,xlims(1));    % figure cooridinates lower left of bar
     aW = (BRx-BLx); % width of bar is right of bar - left of bar (subtraction of x coordinates)
-    annotation('rectangle',[BLx BLy aW aH],'facealpha',0.05,'linestyle','none','facecolor','k');
+%     annotation('rectangle',[BLx BLy aW aH],'facealpha',0.05,'linestyle','none','facecolor','k');
     % horizontal bars
     [BRx BRy] = ds2nfu(xlims(1),v2); % figure coordinates top left of bar
     [BLx BLy] = ds2nfu(xlims(1),v1); % figure coordinates bottom left of bar

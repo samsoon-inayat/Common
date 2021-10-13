@@ -28,6 +28,7 @@ for ii = 1:size(EM,1)
     for jj = 1:length(all_factors)
         txt = [txt ' ' all_factors{jj} '_' char(EM{ii,jj})];
     end
+    posu = findstr(txt,'_'); txt(posu) = '-';
     xlabels{ii} = txt;
 end
 
