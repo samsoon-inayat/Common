@@ -18,7 +18,7 @@ for rr = 1:size(ptable,1)
         end
         nast = getNumberOfAsterisks(ptable(rr,cc));
         xv = xdata(rr); yv = xdata(cc);
-        text(xv,yv,nast,'FontSize',6,'Color',[0.25 0.25 0.25]);
+        text(xv,yv,nast,'FontSize',6,'Color',[0.35 0.35 0.35]);
         if strcmp(nast,'ns')
             ptable_img(rr,cc) = 1;
         end
@@ -33,7 +33,7 @@ for rr = 1:size(ptable,1)
         end
     end
 end
-ha1.XColor = [0.25 0.25 0.25]; ha1.YColor = [0.25 0.25 0.25];
+ha1.XColor = [0.35 0.35 0.35]; ha1.YColor = [0.35 0.35 0.35];
 ha1.XAxis.Visible = 'Off'; ha1.FontSize = 6;
 
 vend = xlims(2);
@@ -73,7 +73,7 @@ for ii = 1:length(hbs)
     [BRx BRy] = ds2nfu(xlims(1),v2); % figure coordinates top left of bar
     [BLx BLy] = ds2nfu(xlims(1),v1); % figure coordinates bottom left of bar
     aH1 = (BRy-BLy); % height of bar is top left - bottom left (subtraction of y coordinates)
-    annotation('rectangle',[BLx BLy aW1 aH1],'facealpha',0.05,'linestyle','none','facecolor','k');
+    annotation('rectangle',[BLx BLy aW1 aH1],'facealpha',0.2,'linestyle','none','facecolor','k');
     lv(ii) = v1;
     lvc(ii) = v1 + (v2-v1)/1.5;
     lvc1(ii) = v1 + (v2-v1)/10;
@@ -88,12 +88,12 @@ for rr = 1:size(ptable,1)
         end
         nast = getNumberOfAsterisks(ptable(rr,cc));
         xv = lvc(cc); yv = lvc1(rr);%xdata(rr);
-        ht = text(xv,yv,nast,'FontSize',6,'Color',[0.5 0.5 0.5]);
+        ht = text(xv,yv,nast,'FontSize',6,'Color',[0.15 0.15 0.15]);
         ex = ht.Extent;
         nxv = xv - ex(3)/1.5;
         nyv = yv - ex(4)/2;
         delete(ht);
-        ht = text(nxv,yv,nast,'FontSize',6,'Color',[0.5 0.5 0.5]);
+        ht = text(nxv,yv,nast,'FontSize',6,'Color',[0.15 0.15 0.15]);
         n = 0;
     end
 end
