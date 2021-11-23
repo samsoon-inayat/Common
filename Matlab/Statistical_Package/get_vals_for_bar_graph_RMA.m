@@ -1,7 +1,7 @@
 function [xdata,mVar,semVar,combs,p,h,colors,xlabels,extras] = get_vals_for_bar_graph_RMA(mData,ra,facs,gaps)
 hollowsep = [];
 
-mData.colors = [mData.colors;mData.colors];
+mData.colors = [mData.colors;mData.colors;mData.colors;mData.colors;mData.colors];
 
 facname = facs{1};
 ttype = facs{2};

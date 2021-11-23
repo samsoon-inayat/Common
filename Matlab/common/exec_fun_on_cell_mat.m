@@ -1,4 +1,16 @@
-function out = exec_fun_on_cell_mat(inp,fun)
+function out = exec_fun_on_cell_mat(inpi,fun,resp)
+
+if exist('resp','var')
+    for rr = 1:size(inpi,1)
+        for cc = 1:size(inpi,2)
+            thisV = inpi{rr,cc};
+            inp{rr,cc} = thisV(resp{rr,cc});
+        end
+    end
+else
+    inp = inpi;
+end
+
 
 if ~iscell(fun)
     cmdTxt = sprintf('out = arrayfun(@(x) %s(x{1}),inp);',fun);

@@ -60,6 +60,7 @@ out.MC = do_MC(rm,alpha,posthoc); % all multiple comparisons
 out.all_factors = all_factors';
 % if nwf <= 2
 out = populate_combs_ps(out);
+disp(sprintf('Eta2 = %.3f',round(out.eta2,3)));
 % end
 % mcs_bonferroni = populate_combs_and_ps(rm,est_margmean,mcs_bonferroni,0);
 % mcs_lsd = populate_combs_and_ps(rm,est_margmean,mcs_lsd,0);
@@ -141,11 +142,11 @@ end
 
 function [EM,GS] = get_EM_GS(rm,within_factors)
 all_factors = [rm.BetweenFactorNames rm.WithinFactorNames];
-all_factors1 = [rm.BetweenFactorNames within_factors];
+% all_factors1 = [rm.BetweenFactorNames within_factors];
 for ii = 1:length(all_factors)
     cmdTxt = sprintf('[EM.%s GS.%s] = get_est_margmean_and_group_stats(rm,all_factors(ii));',all_factors{ii},all_factors{ii}); eval(cmdTxt);
 end
-if length(all_factors) > 2
+if length(all_factors) >= 2
     combs = flipud(perms(1:length(all_factors)));
 %     combs = combs(:,1:2);
     combs = unique(combs(:,[1 2]),'rows');
@@ -226,7 +227,7 @@ fieldsMC = fieldnames(MC);
 for ii = 1:length(fields)
     cmdTxt = sprintf('est_margmean = EMs.%s;',fields{ii}); eval(cmdTxt);
     for jj = 1:length(fieldsMC)
-        if ii == 4
+        if ii == 5
             n = 0;
         end
         cmdTxt = sprintf('mcs = MC.%s;',fieldsMC{jj}); eval(cmdTxt);
@@ -284,7 +285,7 @@ if length(all_factors) == 2
         factor2 = all_factors{2};
         indCol1 = find(strcmp(WithinDesgin.Properties.VariableNames,factor1));
         indCol2 = find(strcmp(WithinDesgin.Properties.VariableNames,factor2));
-        cmdTxt = sprintf('mc_tbl = mcs.%s_%s;',factor1,factor2); eval(cmdTxt);
+%         cmdTxt = sprintf('mc_tbl = mcs.%s_%s;',factor1,factor2); eval(cmdTxt);
         cmdTxt = sprintf('mc_tbl1 = mcs.%s_by_%s;',factor1,factor2); eval(cmdTxt);
         cmdTxt = sprintf('mc_tbl2 = mcs.%s_by_%s;',factor2,factor1); eval(cmdTxt);
         for rr = 1:size(combs,1)
