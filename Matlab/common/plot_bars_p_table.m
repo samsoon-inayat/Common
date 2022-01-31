@@ -133,7 +133,11 @@ for ii = 1:length(h)
     line([x1 x2], [yy yy],'linewidth',sigLineWidth,'color',sigColor);
     line([x1 x1], [yy-(ySpacing/2) yy],'linewidth',sigLineWidth,'color',sigColor);
     line([x2 x2], [yy-(ySpacing/2) yy],'linewidth',sigLineWidth,'color',sigColor);
-    sigText = nast{ii};
+    try
+        sigText = nast{ii};
+    catch
+        sigText = nast;
+    end
     xt1 = x1 + (x2-x1)/2;
     text(xt1,yy-dy/2,sigText,'FontSize',sigAsteriskFontSize,'HorizontalAlignment','center','Color',sigColor);
 %     ytxt = (yy-(ySpacing/3));
