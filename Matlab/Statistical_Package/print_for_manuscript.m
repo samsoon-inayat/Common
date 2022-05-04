@@ -11,9 +11,13 @@ if exist('row','var')
     try
         p = ra.ranova.pValue_sel(ind); 
     catch
-        p = ra.ranova.pValueGG_sel(ind); 
+        try
+            p = ra.ranova.pValueGG_sel(ind); 
+        catch
+            p = ra.ranova.pValueHF_sel(ind); 
+        end
     end
-    eta = ra.ranova.Eta2{ind};
+    eta = ra.ranova.Eta2{ind-1};
     vartype = ra.ranova.Row{ind};
     ind = strfind(vartype,':');
     vtxt = vartype((ind(1)+1):end);
@@ -30,7 +34,11 @@ end
 try
     inds = find(ra.ranova.pValue_sel < 0.05);
 catch
-    inds = find(ra.ranova.pValueGG_sel < 0.05);
+    try
+        inds = find(ra.ranova.pValueGG_sel < 0.05);
+    catch
+        inds = find(ra.ranova.pValueHF_sel < 0.05);
+    end
 end
 if length(inds) > 1
     ht = 0.15*5;

@@ -47,11 +47,18 @@ else
 end
 col = ranovatbl(:,colVal);
 ranovatbl(:,size(ranovatbl,2)+1) = col; ranovatbl.Properties.VariableNames{end} = sprintf('%s_sel',col.Properties.VariableNames{1});
+out.selected_pval_col = colVal;
 
 col.Properties.VariableNames{1} = 'pValue';
 eta2 = cell(length(ranovatbl.SumSq),1);
-for ii = 1:2:length(ranovatbl.SumSq)
-    eta2{ii,1} = ranovatbl.SumSq(ii)/(ranovatbl.SumSq(ii+1)+ranovatbl.SumSq(ii));
+if nbf == 0
+    for ii = 1:2:length(ranovatbl.SumSq)
+        eta2{ii,1} = ranovatbl.SumSq(ii)/(ranovatbl.SumSq(ii+1)+ranovatbl.SumSq(ii));
+    end
+else
+    for ii = 1:2:length(ranovatbl.SumSq)
+        eta2{ii,1} = ranovatbl.SumSq(ii)/(ranovatbl.SumSq(ii+1)+ranovatbl.SumSq(ii));
+    end
 end
 ranovatbl(:,size(ranovatbl,2)+1) = table((eta2)); ranovatbl.Properties.VariableNames{end} = 'Eta2';
 out.ranova = ranovatbl;
