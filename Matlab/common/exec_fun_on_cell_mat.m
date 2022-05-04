@@ -13,8 +13,9 @@ end
 
 
 if ~iscell(fun)
-    cmdTxt = sprintf('out = arrayfun(@(x) %s(x{1}),inp);',fun);
+    cmdTxt = sprintf('out = arrayfun(@(x) %s(x{1}),inp,''un'',0);',fun);
     eval(cmdTxt);
+    out = cell2mat(out);
 else
     for ii = 1:length(fun)
         cmdTxt = sprintf('out.%s = arrayfun(@(x) %s(x{1}),inp);',fun{ii},fun{ii}); eval(cmdTxt);

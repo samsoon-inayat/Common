@@ -18,7 +18,7 @@ end
 
 [between_factors,nbf] = get_between_factors(between);
 nwf = size(within,2);
-if nbf > 1 || nwf > 3
+if nbf > 1 || nwf > 4
     disp('number of between factors <=1 or number of within factors <=2');
     error;
 end
@@ -47,6 +47,13 @@ else
 end
 col = ranovatbl(:,colVal);
 ranovatbl(:,size(ranovatbl,2)+1) = col; ranovatbl.Properties.VariableNames{end} = sprintf('%s_sel',col.Properties.VariableNames{1});
+
+col.Properties.VariableNames{1} = 'pValue';
+eta2 = cell(length(ranovatbl.SumSq),1);
+for ii = 1:2:length(ranovatbl.SumSq)
+    eta2{ii,1} = ranovatbl.SumSq(ii)/(ranovatbl.SumSq(ii+1)+ranovatbl.SumSq(ii));
+end
+ranovatbl(:,size(ranovatbl,2)+1) = table((eta2)); ranovatbl.Properties.VariableNames{end} = 'Eta2';
 out.ranova = ranovatbl;
 
 %*********************
@@ -60,7 +67,7 @@ out.MC = do_MC(rm,alpha,posthoc); % all multiple comparisons
 out.all_factors = all_factors';
 % if nwf <= 2
 out = populate_combs_ps(out);
-disp(sprintf('Eta2 = %.3f',round(out.eta2,3)));
+% disp(sprintf('Eta2 = %.3f',round(out.eta2,3)));
 % end
 % mcs_bonferroni = populate_combs_and_ps(rm,est_margmean,mcs_bonferroni,0);
 % mcs_lsd = populate_combs_and_ps(rm,est_margmean,mcs_lsd,0);
@@ -125,6 +132,9 @@ if nwf == 2
 end
 if nwf == 3
     within_model = [within_factors{1} '*' within_factors{2} '*' within_factors{3}];
+end
+if nwf == 4
+    within_model = [within_factors{1} '*' within_factors{2} '*' within_factors{3} '*' within_factors{4}];
 end
 
 function [between_factors,nbf] = get_between_factors(between)
@@ -227,7 +237,7 @@ fieldsMC = fieldnames(MC);
 for ii = 1:length(fields)
     cmdTxt = sprintf('est_margmean = EMs.%s;',fields{ii}); eval(cmdTxt);
     for jj = 1:length(fieldsMC)
-        if ii == 5
+        if ii == 9
             n = 0;
         end
         cmdTxt = sprintf('mcs = MC.%s;',fieldsMC{jj}); eval(cmdTxt);
@@ -258,7 +268,7 @@ if isempty(find(strcmp(all_factors,'Group')))
 else
     wf = 0;
 end
-if wf == 1
+if strcmp(rm.BetweenModel,'1')
     nbf = 0;
 else
     nbf = 1;
@@ -288,35 +298,45 @@ if length(all_factors) == 2
 %         cmdTxt = sprintf('mc_tbl = mcs.%s_%s;',factor1,factor2); eval(cmdTxt);
         cmdTxt = sprintf('mc_tbl1 = mcs.%s_by_%s;',factor1,factor2); eval(cmdTxt);
         cmdTxt = sprintf('mc_tbl2 = mcs.%s_by_%s;',factor2,factor1); eval(cmdTxt);
+
+        % get the est marg mean rows and first two columns as double type
+        % variables instead of categorical
+        for ii = 1:size(est_margmean,1)
+            tmpstr = string(est_margmean{ii,1:2});
+            for sii = 1:length(tmpstr)
+               est_marg_rows(ii,sii)  = str2num(tmpstr(sii));
+            end
+        end
+        
+        for ii = 1:size(mc_tbl1,1)
+            tmpstr = string(mc_tbl1{ii,1:3});
+            for sii = 1:length(tmpstr)
+               mc_tbl1_rows(ii,sii)  = str2num(tmpstr(sii));
+            end
+        end
+        
+        for ii = 1:size(mc_tbl2,1)
+            tmpstr = string(mc_tbl2{ii,1:3});
+            for sii = 1:length(tmpstr)
+               mc_tbl2_rows(ii,sii)  = str2num(tmpstr(sii));
+            end
+        end
+
         for rr = 1:size(combs,1)
-            row1 = combs(rr,1); row2 = combs(rr,2);
-            row1V = WithinDesgin{row1,[1 2]}; row2V = WithinDesgin{row2,[1 2]};
-            if row1V(1) == row2V(1) && row1V(2) ~= row2V(2)
-                tmc1 = mc_tbl2;
-                ind = tmc1{:,1} == row1V(1) & ismember(tmc1{:,[2 3]},[row1V(2) row2V(2)],'rows') ;
-                p(rr) = tmc1{ind,6};
+            comp1_ids = est_marg_rows(combs(rr,1),:);
+            comp2_ids = est_marg_rows(combs(rr,2),:);
+            if comp1_ids == comp2_ids
                 continue;
             end
-            if row1V(1) ~= row2V(1) && row1V(2) == row2V(2)
-                tmc1 = mc_tbl1;
-                ind = tmc1{:,1} == row2V(2) & ismember(tmc1{:,[2 3]},[row1V(1) row2V(1)],'rows') ;
-                p(rr) = tmc1{ind,6};
-                continue;
+            if comp1_ids(1) == comp2_ids(1)
+                row_to_find = [comp1_ids comp2_ids(2)];
+                ind = ismember(mc_tbl2_rows,row_to_find,'rows');
+                p(rr) = mc_tbl2{ind,6};
             end
-            if row1V(1) ~= row2V(1) && row1V(2) ~= row2V(2)
-                continue;
-                with_level_1_1 = est_margmean{row1,1};
-                with_level_2_1 = est_margmean{row1,2};
-                w12_1 = categorical(with_level_1_1).*categorical(with_level_2_1);
-                with_level_1_2 = est_margmean{row2,1};
-                with_level_2_2 = est_margmean{row2,2};
-                w12_2 = categorical(with_level_1_2).*categorical(with_level_2_2);
-                tmc = mc_tbl;
-                value_to_check = w12_1; row_col1 = tmc{:,1}==value_to_check;
-                value_to_check = w12_2; row_col2 = tmc{:,2}==value_to_check;
-                rowN = find(row_col1 & row_col2);
-                p(rr) = tmc{rowN,5};
-                continue;
+            if comp1_ids(2) == comp2_ids(2)
+                row_to_find = [comp1_ids(2) comp1_ids(1) comp2_ids(1)];
+                ind = ismember(mc_tbl1_rows,row_to_find,'rows');
+                p(rr) = mc_tbl1{ind,6};
             end
         end
     end

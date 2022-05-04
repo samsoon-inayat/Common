@@ -22,10 +22,19 @@ for ii = 1:nwf(1)
             continue;
         end
         for kk = 1:nwf(3)
-            wvar(ind,:) = [ii jj kk];
-            dataT_var_names{ind} = sprintf('%s%d_%s%d_%s%d',FL(1),ii,FL(2),jj,FL(3),kk);
-            xlabels{ind} = sprintf('%s%d-%s%d-%s%d',FL(1),ii,FL(2),jj,FL(3),kk);
-            ind = ind + 1;
+            if nfac == 3
+                wvar(ind,:) = [ii jj kk];
+                dataT_var_names{ind} = sprintf('%s%d_%s%d_%s%d',FL(1),ii,FL(2),jj,FL(3),kk);
+                xlabels{ind} = sprintf('%s%d-%s%d-%s%d',FL(1),ii,FL(2),jj,FL(3),kk);
+                ind = ind + 1;
+                continue;
+            end
+            for ll = 1:nwf(4)
+                wvar(ind,:) = [ii jj kk ll];
+                dataT_var_names{ind} = sprintf('%s%d_%s%d_%s%d',FL(1),ii,FL(2),jj,FL(3),kk,FL(4),ll);
+                xlabels{ind} = sprintf('%s%d-%s%d-%s%d',FL(1),ii,FL(2),jj,FL(3),kk,FL(4),ll);
+                ind = ind + 1;
+            end
         end
     end
 end

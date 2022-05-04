@@ -8,6 +8,8 @@ if isvector(data)
         varargout{1} = nanstd(data);
         varargout{2} = med;
     end
+%     pmchar=char(177); any_text = sprintf('%.2f%c%.2f',md,pmchar,sem); 
+%     disp(any_text);
     return;
 end
 
@@ -29,3 +31,6 @@ if nargout > 2
     varargout{1} = nanstd(data,0,dim)
     varargout{2} = med;
 end
+% pmchar=char(177); any_text = sprintf('%.2f%c%.2f',md,pmchar,sem); 
+% disp(any_text);
+
