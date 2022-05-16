@@ -56,7 +56,10 @@ for ii = 1:length(inds)
 end
 axis off;
 mData = evalin('base','mData');
+try
 save_pdf(hf,mData.pdf_folder,'rmanova.pdf',600);
+catch
+end
 % close(hf);
 txt =[];
 
