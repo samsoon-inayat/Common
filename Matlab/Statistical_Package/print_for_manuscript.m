@@ -17,7 +17,7 @@ if exist('row','var')
             p = ra.ranova.pValueHF_sel(ind); 
         end
     end
-    eta = ra.ranova.Eta2{ind-1};
+    eta = ra.ranova.Eta2{ind};
     vartype = ra.ranova.Row{ind};
     ind = strfind(vartype,':');
     vtxt = vartype((ind(1)+1):end);
