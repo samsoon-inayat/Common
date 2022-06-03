@@ -16,8 +16,13 @@ fields = fieldnames(ra.EM);
 facnamei = find(strcmp(fields,facname));
 
 combs = ra.combs{facnamei,ttypei};
-p = ra.ps{facnamei,ttypei};
-h = p < 0.05;
+if isnan(combs)
+    p = NaN; h = NaN;
+else
+    p = ra.ps{facnamei,ttypei};
+    h = p < 0.05;
+end
+
 
 cmdTxt = sprintf('EM = ra.EM.%s;',facname); eval(cmdTxt);
 ind = find(strcmp(EM.Properties.VariableNames,'Mean'));
@@ -106,6 +111,10 @@ if length(all_factors) == 3
     colors = mData.colors(1:length(unique_conds3));
     colors = repmat(colors,length(num_groups)*length(unique_conds1)*length(unique_conds2),1);
     n = 0;
+end
+
+if isnan(combs)
+    return;
 end
 
 pvalsTable = nan(length(mVar),length(mVar));

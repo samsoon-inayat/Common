@@ -1,4 +1,4 @@
-function [within,dataT_var_names,xlabels] = make_within_table(var_names,nwf)
+function [within,dataT_var_names,xlabels,withinD] = make_within_table(var_names,nwf)
 nfac = length(var_names);
 wvar = NaN(prod(nwf),nfac);
 ind = 1;
@@ -38,6 +38,7 @@ for ii = 1:nwf(1)
         end
     end
 end
+withinD = wvar;
 within = array2table(wvar);
 within.Properties.VariableNames = var_names;
 for ii = 1:length(var_names)

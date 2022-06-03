@@ -19,7 +19,7 @@ end
 [between_factors,nbf] = get_between_factors(between);
 nwf = size(within,2);
 if nbf > 1 || nwf > 4
-    disp('number of between factors <=1 or number of within factors <=2');
+    disp('number of between factors <=1 or number of within factors <=3');
     error;
 end
 within_factors = within.Properties.VariableNames;
