@@ -61,6 +61,7 @@ else
     end
 end
 ranovatbl(:,size(ranovatbl,2)+1) = table((eta2)); ranovatbl.Properties.VariableNames{end} = 'Eta2';
+ranovatbl(:,size(ranovatbl,2)+1) = table((col.pValue<alpha)); ranovatbl.Properties.VariableNames{end} = 'h_Sig';
 out.ranova = ranovatbl;
 
 %*********************

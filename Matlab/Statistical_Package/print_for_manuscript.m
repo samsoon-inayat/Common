@@ -60,7 +60,10 @@ try
 save_pdf(hf,mData.pdf_folder,'rmanova.pdf',600);
 catch
 end
-% close(hf);
+try
+close(hf);
+catch
+end
 txt =[];
 
 function ind = row_identifier(rows,row)

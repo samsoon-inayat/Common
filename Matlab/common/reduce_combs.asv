@@ -1,0 +1,10 @@
+function [combs,p,h] = reduce_combs(combs,p,h,lim)
+
+n = 0;
+ncombs = [];
+for ii = 1:length(lim)
+    tlim = lim{ii};
+    ncombs = [ncombs;nchoosek(tlim,2)];
+    for ii = 
+end
+
