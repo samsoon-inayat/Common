@@ -9,7 +9,7 @@ for ii = 1:length(sel_ax_i)
     ylnu2(ii) = (pos(2)+pos(4))/hf_pos(4);
 end
 
-mnx = min(xlnu1);
+mnx = min(xlnu1);%-0.2;
 Mnx = max(xlnu2);
 
 ylnu = ylnu2(1) + ylnu2(1)/15;
