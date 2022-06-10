@@ -23,8 +23,8 @@ out.avg = avg;
 out.med = med;
 out.sem = se;
 out.sd = sd;
-minD = min(data,[],dimension);
-maxD = max(data,[],dimension);
+minD = nanmin(data,[],dimension);
+maxD = nanmax(data,[],dimension);
 out.min = minD;
 out.max = maxD;
 

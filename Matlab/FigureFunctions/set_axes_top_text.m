@@ -1,4 +1,4 @@
-function set_bar_graph_sub_xtick_text(hf,sel_ax_i,str)
+function set_bar_graph_sub_xtick_text(hf,sel_ax_i,str,shifts)
 hf_pos = get(hf,'Position'); 
  
 for ii = 1:length(sel_ax_i)
@@ -18,7 +18,13 @@ annotation('line',[mnx Mnx],[ylnu ylnu],'linewidth',0.25,'Color','b','linestyle'
 
 mofl = mnx + ((Mnx - mnx)/2);
 
-annotation('textbox',[mnx ylnu diff([mnx Mnx]) ylnu/10],'String',str,'FontSize',6,'Margin',0,'EdgeColor','none','FaceAlpha',0);
+sizetxt = [mnx ylnu diff([mnx Mnx]) ylnu/10];
+
+if exist('shifts','var')
+    sizetxt = sizetxt + shifts;
+end
+
+annotation('textbox',sizetxt,'String',str,'FontSize',6,'Margin',0,'EdgeColor','none','FaceAlpha',0);
 
 % for aii = 1:length(ff.h_axes)
 %     sel_ax = ff.h_axes(1,aii);axes(sel_ax);
