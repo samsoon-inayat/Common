@@ -23,7 +23,11 @@ if exist('row','var')
     vtxt = vartype((ind(1)+1):end);
     inds = strfind(vtxt,'_');
     vtxt(inds) = '-';
-    txt = sprintf('%s   [F (%d,%d) = %.2f, p = %*.3f, %c2 = %0.2f]',vtxt,DF1,DF2,F,4,p,951,eta);
+    if p < 0.001
+        txt = sprintf('%s   [F (%d,%d) = %.2f, p < %*.3f, %c2 = %0.2f]',vtxt,DF1,DF2,F,4,0.001,951,eta);
+    else
+        txt = sprintf('%s   [F (%d,%d) = %.2f, p = %*.3f, %c2 = %0.2f]',vtxt,DF1,DF2,F,4,p,951,eta);
+    end
     ind = strfind(txt,'p = 0');
     txt(ind+4) = []; 
     ind = strfind(txt,'2 = 0');
