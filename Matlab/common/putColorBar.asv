@@ -12,9 +12,9 @@ parse(p,hai,positionShift,minmax,fs,varargin{:});
 location = p.Results.location;
 text_margins = p.Results.text_margins;
 
-pos = get(hai,'Position'); units = get(hai,'Units');
-ha = axes('Position',pos,'Visible','off','Units',units);
-set(ha,'Position',get(hai,'Position'));
+pos = get(hai,'Position'); 
+ha = axes('Position',pos,'Visible','off');
+get(ha,'Position');
 axis off;
 hc = colorbar('location',location);
 set(hc,'EdgeColor','none');
