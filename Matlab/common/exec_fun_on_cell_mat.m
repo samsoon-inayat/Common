@@ -1,5 +1,11 @@
 function out = exec_fun_on_cell_mat(inpi,fun,resp)
 
+if strcmp(fun,'percent')
+    out = find_percent(inpi);
+    return;
+end
+
+
 if exist('resp','var')
     for rr = 1:size(inpi,1)
         for cc = 1:size(inpi,2)

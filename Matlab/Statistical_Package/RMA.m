@@ -64,6 +64,10 @@ ranovatbl(:,size(ranovatbl,2)+1) = table((eta2)); ranovatbl.Properties.VariableN
 ranovatbl(:,size(ranovatbl,2)+1) = table((col.pValue<alpha)); ranovatbl.Properties.VariableNames{end} = 'h_Sig';
 out.ranova = ranovatbl;
 
+if isempty(posthoc)
+    return;
+end
+
 %*********************
 % if within_factors are 2 then in the updated within table there is
 % interaction term as well e.g., Type and Dominance ... thenlast column
