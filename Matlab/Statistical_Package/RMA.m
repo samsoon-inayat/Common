@@ -55,6 +55,10 @@ if nbf == 0
     for ii = 1:2:length(ranovatbl.SumSq)
         eta2{ii,1} = ranovatbl.SumSq(ii)/(ranovatbl.SumSq(ii+1)+ranovatbl.SumSq(ii));
     end
+    totalE = sum(ranovatbl.SumSq(2:2:end));
+    for ii = 1:2:length(ranovatbl.SumSq)
+        eta2G{ii,1} = ranovatbl.SumSq(ii)/(ranovatbl.SumSq(ii)+totalE);
+    end
 elseif nbf == 1
     if nwf == 1
         for ii = 1:3:length(ranovatbl.SumSq)
