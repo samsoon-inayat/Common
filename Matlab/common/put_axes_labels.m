@@ -8,7 +8,9 @@ if ~isempty(tlab)
     label = tlab{1};
     pos_l = tlab{2};
     hc = xlabel(label);
-    changePosition(hc,pos_l);
+    if ~isempty(pos_l)
+        changePosition(hc,pos_l);
+    end
 end
 
 tlab = ylab;
@@ -16,6 +18,8 @@ if ~isempty(tlab)
     label = tlab{1};
     pos_l = tlab{2};
     hc = ylabel(label);
-    changePosition(hc,pos_l);
+    if ~isempty(pos_l)
+        changePosition(hc,pos_l);
+    end
 end
 

@@ -8,9 +8,11 @@ addOptional(p,'spaceRowsCols',[0 0],@isnumeric);
 addOptional(p,'rightUpShifts',[0 0],@isnumeric);
 addOptional(p,'widthHeightAdjustment',[0 0],@isnumeric);
 addOptional(p,'reposition',0,@isnumeric);
+addOptional(p,'magfac',1,@isnumeric);
 parse(p,figNum,figPos,varargin{:});
 
-magFac = 1;
+mData = evalin('base','mData');
+magfac = mData.magfac;
 ff.hf = figure(figNum);clf;
 set(ff.hf,'Units','inches');
 % if isnan(figPos(1))
@@ -24,7 +26,7 @@ set(ff.hf,'Units','inches');
 %         'NumberTitle','on','Color','w','Resize','off',...
 %         'NextPlot','add');
 % end
-
+figPos(3) = magfac * figPos(3); figPos(4) = magfac * figPos(4);
 set(gcf,'color','w'); set(gcf,'Position',figPos);
 
 

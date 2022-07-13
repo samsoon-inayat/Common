@@ -24,16 +24,18 @@ addOptional(p,'xdata',1:length(means));
 addOptional(p,'capsize',3);
 parse(p,means,sems,combs,sig,varargin{:});
 
+mData = evalin('base','mData'); magfac = mData.magfac;
+
 cols = p.Results.colors;
 myy = p.Results.maxY;
 maxY = default_maxY;
-sigLinesStartYFactor = p.Results.sigLinesStartYFactor;
-ySpacing = p.Results.ySpacing;
+sigLinesStartYFactor = p.Results.sigLinesStartYFactor*magfac;
+ySpacing = p.Results.ySpacing;%*magfac;
 sigColor = p.Results.sigColor;
 sigTestName = p.Results.sigTestName;
-sigLineWidth = p.Results.sigLineWidth;
-sigAsteriskFontSize = p.Results.sigAsteriskFontSize;
-sigFontSize = p.Results.sigFontSize;
+sigLineWidth = p.Results.sigLineWidth*magfac;
+sigAsteriskFontSize = p.Results.sigAsteriskFontSize*magfac;
+sigFontSize = p.Results.sigFontSize*magfac;
 bv = p.Results.BaseValue;
 xdata = p.Results.xdata;
 capsize = p.Results.capsize;

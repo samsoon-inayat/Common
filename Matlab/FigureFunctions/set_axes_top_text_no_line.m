@@ -1,6 +1,7 @@
 function ht = set_axes_top_text(hf,sel_ax_i,str,shifts)
 hf_pos = get(hf,'Position'); 
- 
+  mData = evalin('base','mData');
+  FS = 6*mData.magfac;
 for ii = 1:length(sel_ax_i)
     sel_ax = sel_ax_i(ii);
     pos = get(sel_ax,'position');
@@ -24,7 +25,7 @@ if exist('shifts','var')
     sizetxt = sizetxt + shifts;
 end
 
-ht = annotation('textbox',sizetxt,'String',str,'FontSize',6,'Margin',0,'EdgeColor','none','FaceAlpha',0);
+ht = annotation('textbox',sizetxt,'String',str,'FontSize',FS,'Margin',0,'EdgeColor','none','FaceAlpha',0);
 
 % for aii = 1:length(ff.h_axes)
 %     sel_ax = ff.h_axes(1,aii);axes(sel_ax);
