@@ -77,10 +77,6 @@ ranovatbl(:,size(ranovatbl,2)+1) = table((eta2G)); ranovatbl.Properties.Variable
 ranovatbl(:,size(ranovatbl,2)+1) = table((col.pValue<alpha)); ranovatbl.Properties.VariableNames{end} = 'h_Sig';
 out.ranova = ranovatbl;
 
-if isempty(posthoc)
-    return;
-end
-
 %*********************
 % if within_factors are 2 then in the updated within table there is
 % interaction term as well e.g., Type and Dominance ... thenlast column
@@ -88,8 +84,13 @@ end
 %*********************
 all_factors = [between_factors within_factors];
 [out.EM,out.GS] = get_EM_GS(rm,within_factors); % est_marg_means
-out.MC = do_MC(rm,alpha,posthoc); % all multiple comparisons
 out.all_factors = all_factors';
+if isempty(posthoc)
+    return;
+end
+
+out.MC = do_MC(rm,alpha,posthoc); % all multiple comparisons
+
 % if nwf <= 2
 out = populate_combs_ps(out);
 % disp(sprintf('Eta2 = %.3f',round(out.eta2,3)));
