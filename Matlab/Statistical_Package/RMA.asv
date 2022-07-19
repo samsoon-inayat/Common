@@ -67,8 +67,8 @@ elseif nbf == 1
         end
         totalE = sum(ranovatbl.SumSq(3:3:end));
         for ii = 1:3:length(ranovatbl.SumSq)
-            eta2G{ii,1} = ranovatbl.SumSq(ii)/(ranovatbl.SumSq(ii)+totalE);
-            eta2G{ii+1,1} = ranovatbl.SumSq(ii+1)/(ranovatbl.SumSq(ii+1)+totalE);
+            eta2G{ii,1} = ranovatbl.SumSq(ii)/(ranovatbl.SumSq(3)+ranovatbl.SumSq(ii)+ranovatbl.SumSq(end));
+            eta2G{ii+1,1} = ranovatbl.SumSq(ii+1)/(ranovatbl.SumSq(3)+ranovatbl.SumSq(ii+1)+ranovatbl.SumSq(end));
         end
     end
 else
