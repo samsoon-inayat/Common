@@ -29,12 +29,12 @@ if iscell(minmax)
     minmaxtextF{2} = minmax{2};
     minmax = [0 1];
 else
-    minmaxtextN{1} = sprintf('-%d',-round(minmax(1)));
-    minmaxtextP{1} = sprintf('%d',minmax(1));
+    minmaxtextN{1} = sprintf('-%g',-round(minmax(1),1));
+    minmaxtextP{1} = sprintf('%g',minmax(1));
     minmaxtextF{1} = sprintf('%.1f',minmax(1));
     
-    minmaxtextN{2} = sprintf('-%d',-round(minmax(2)));
-    minmaxtextP{2} = sprintf('%d',minmax(2));
+    minmaxtextN{2} = sprintf('-%g',-round(minmax(2),1));
+    minmaxtextP{2} = sprintf('%g',minmax(2));
     minmaxtextF{2} = sprintf('%.1f',minmax(2));
 end
 caxis(minmax);
@@ -43,10 +43,10 @@ xincr = text_margins(1); yincr = text_margins(2);
 xincr1 = text_margins(3); yincr1 = text_margins(4);
 if strcmp(location,'northoutside')
     if minmax(1) > 10
-        minmax(1) = round(minmax(1));
+        minmax(1) = round(minmax(1),1);
     end
     if minmax(2) > 10
-        minmax(2) = round(minmax(2));
+        minmax(2) = round(minmax(2),1);
     end
     if abs(minmax(1)) > 10
         if minmax(1) < 0
@@ -71,10 +71,10 @@ if strcmp(location,'northoutside')
 end
 if strcmp(location,'eastoutside')
     if minmax(1) > 10
-        minmax(1) = round(minmax(1));
+        minmax(1) = round(minmax(1),1);
     end
     if minmax(2) > 10
-        minmax(2) = round(minmax(2));
+        minmax(2) = round(minmax(2),1);
     end
     if abs(minmax(1)) > 10
         if minmax(1) < 0
