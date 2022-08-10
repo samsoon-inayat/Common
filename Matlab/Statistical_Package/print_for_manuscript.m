@@ -32,9 +32,9 @@ end
 function disptxt(vtxt,DF1,DF2,F,p,eta)
 
 if p < 0.001
-    txt = sprintf('%s   [F (%d,%d) = %.2f, p < %*.3f, %c2 = %0.2f]',vtxt,DF1,DF2,F,4,0.001,951,eta);
+    txt = sprintf('%s   [F(%d,%d) = %.2f, p < %*.3f, %c2 = %0.2f]',vtxt,DF1,DF2,F,4,0.001,951,eta);
 else
-    txt = sprintf('%s   [F (%d,%d) = %.2f, p = %*.3f, %c2 = %0.2f]',vtxt,DF1,DF2,F,4,p,951,eta);
+    txt = sprintf('%s   [F(%d,%d) = %.2f, p = %*.3f, %c2 = %0.2f]',vtxt,DF1,DF2,F,4,p,951,eta);
 end
 %             if p < 0.001
 %                 txt = sprintf('%s   [F (%d,%d) = %.2f, p < %*.3f, %c2 = %0.2f, %c2G = %0.2f]',vtxt,DF1,DF2,F,4,0.001,951,eta,951,etaG);
