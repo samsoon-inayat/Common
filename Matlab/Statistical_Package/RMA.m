@@ -1,4 +1,6 @@
-function out = RMA(between,within,extras)
+function out = RMA(between,withini,extras)
+
+within = make_within_categorical(withini);
 if ~exist('extras','var')
     extras = {0.05,{'hsd'}};
 end
@@ -18,7 +20,7 @@ end
 
 [between_factors,nbf] = get_between_factors(between);
 nwf = size(within,2);
-if nbf > 1 || nwf > 4
+if nbf > 1 || nwf > 5
     disp('number of between factors <=1 or number of within factors <=3');
     error;
 end
@@ -162,6 +164,9 @@ if nwf == 3
 end
 if nwf == 4
     within_model = [within_factors{1} '*' within_factors{2} '*' within_factors{3} '*' within_factors{4}];
+end
+if nwf == 5
+    within_model = [within_factors{1} '*' within_factors{2} '*' within_factors{3} '*' within_factors{4} '*' within_factors{5}];
 end
 
 function [between_factors,nbf] = get_between_factors(between)
@@ -485,7 +490,12 @@ end
 % mcs.p = p;
 
 
-
+function within = make_within_categorical(within)
+var_names = within.Properties.VariableNames;
+for ii = 1:length(var_names)
+    cmdTxt = sprintf('within.%s = categorical(within.%s);',var_names{ii},var_names{ii});
+    eval(cmdTxt);
+end
 
 
 

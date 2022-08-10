@@ -14,18 +14,25 @@ if nbf == 0
     end
 end
 if nbf == 1
-    if nwf == 1
-        dfeb = ra.ranova.DF(3); dfew = ra.ranova.DF(6);
-        for ii = 1:size(ra.ranova,1)
-            F = ra.ranova.F(ii);
-            if ismember(ii,[3 6])
-                continue;
-            end
-            DF1 = ra.ranova.DF(ii); p = ra.ranova{ii,ra.selected_pval_col};
-            if ii < 4 DF2 = dfeb; else DF2 = dfew; end
-            eta = ra.ranova.Eta2{ii}; etaG = ra.ranova.Eta2G{ii}; vtxt = ra.ranova.Row{ii};
-            disptxt(vtxt,DF1,DF2,F,p,etaG);
-        end
+    ii = 2
+    F = ra.ranova.F(ii);
+    DF1 = ra.ranova.DF(ii); DF2 = ra.ranova.DF(ii+1); 
+    p = ra.ranova{ii,ra.selected_pval_col};
+    eta = ra.ranova.Eta2{ii}; etaG = ra.ranova.Eta2G{ii}; vtxt = ra.ranova.Row{ii};
+    disptxt(vtxt,DF1,DF2,F,p,etaG);
+    for ii = 4:3:size(ra.ranova,1)
+        F = ra.ranova.F(ii);
+        DF1 = ra.ranova.DF(ii); DF2 = ra.ranova.DF(ii+1); 
+        p = ra.ranova{ii,ra.selected_pval_col};
+        eta = ra.ranova.Eta2{ii}; etaG = ra.ranova.Eta2G{ii}; vtxt = ra.ranova.Row{ii};
+        disptxt(vtxt,DF1,DF2,F,p,etaG);
+    end
+    for ii = 5:3:size(ra.ranova,1)
+        F = ra.ranova.F(ii);
+        DF1 = ra.ranova.DF(ii); DF2 = ra.ranova.DF(ii+1); 
+        p = ra.ranova{ii,ra.selected_pval_col};
+        eta = ra.ranova.Eta2{ii}; etaG = ra.ranova.Eta2G{ii}; vtxt = ra.ranova.Row{ii};
+        disptxt(vtxt,DF1,DF2,F,p,etaG);
     end
 end
 
