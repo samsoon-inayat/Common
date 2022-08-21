@@ -14,7 +14,7 @@ if nbf == 0
     end
 end
 if nbf == 1
-    ii = 2
+    ii = 2;
     F = ra.ranova.F(ii);
     DF1 = ra.ranova.DF(ii); DF2 = ra.ranova.DF(ii+1); 
     p = ra.ranova{ii,ra.selected_pval_col};
@@ -35,6 +35,8 @@ if nbf == 1
         disptxt(vtxt,DF1,DF2,F,p,etaG);
     end
 end
+disp(sprintf('\n'))
+
 
 function disptxt(vtxt,DF1,DF2,F,p,eta)
 
@@ -54,8 +56,11 @@ ind = strfind(txt,'2 = 0');
 txt(ind+4) = []; 
 %             ind = strfind(txt,'2G = 0');
 %             txt(ind+5) = []; 
+if p < 0.05
+    txt = sprintf('%s <--',txt);
+end
 disp(txt)
-disp(sprintf('\n'))
+% disp(sprintf('\n'))
 
 
 % 
