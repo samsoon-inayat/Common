@@ -1,4 +1,4 @@
-function set_axes_top_text(hf,sel_ax_i,str,shifts)
+function ht = set_axes_top_text(hf,sel_ax_i,str,shifts)
 hf_pos = get(hf,'Position'); 
  
 for ii = 1:length(sel_ax_i)
@@ -11,8 +11,14 @@ end
 
 mnx = min(xlnu1);%-0.2;
 Mnx = max(xlnu2);
-
-ylnu = ylnu2(1) + ylnu2(1)/15;
+if iscell(shifts)
+  shifts_line = shifts{1};
+  shifts_text = shifts{2};
+else
+  shifts_line = 0;
+  shifts_text = shifts;
+end
+ylnu = ylnu2(1) + shifts_line;
 
 annotation('line',[mnx Mnx],[ylnu ylnu],'linewidth',0.25,'Color','b','linestyle','-');
 
@@ -21,10 +27,10 @@ mofl = mnx + ((Mnx - mnx)/2);
 sizetxt = [mnx ylnu diff([mnx Mnx]) ylnu/10];
 
 if exist('shifts','var')
-    sizetxt = sizetxt + shifts;
+    sizetxt = sizetxt + shifts_text;
 end
 
-annotation('textbox',sizetxt,'String',str,'FontSize',6,'Margin',0,'EdgeColor','none','FaceAlpha',0);
+ht = annotation('textbox',sizetxt,'String',str,'FontSize',6,'Margin',0,'EdgeColor','none','FaceAlpha',0);
 
 % for aii = 1:length(ff.h_axes)
 %     sel_ax = ff.h_axes(1,aii);axes(sel_ax);
