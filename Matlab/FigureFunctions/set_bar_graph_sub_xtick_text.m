@@ -1,4 +1,4 @@
-function set_bar_graph_sub_xtick_text(hf,sel_ax,hbs,gv,ticklabels,options)
+function ht = set_bar_graph_sub_xtick_text(hf,sel_ax,hbs,gv,ticklabels,options)
 mData = evalin('base','mData');
 magfac = mData.magfac;
 outerpos = get(sel_ax,'OuterPosition');
@@ -29,7 +29,7 @@ for ii = 1:length(inds)
             ylnut = ylnut + shifts(2);
         end
     end
-    annotation('textbox',[nx(1) 0 diff(nx) ylnut],'String',ticklabels{ii},'FontSize',magfac*6,'Margin',0,'EdgeColor','w','FontWeight','Normal');
+    ht(ii)= annotation('textbox',[nx(1) 0 diff(nx) ylnut],'String',ticklabels{ii},'FontSize',magfac*6,'Margin',0,'EdgeColor','w','FontWeight','Normal');
 end
 
 
