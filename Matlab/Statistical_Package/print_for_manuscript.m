@@ -22,7 +22,7 @@ if nbf == 1
     disptxt(vtxt,DF1,DF2,F,p,etaG);
     for ii = 4:3:size(ra.ranova,1)
         F = ra.ranova.F(ii);
-        DF1 = ra.ranova.DF(ii); DF2 = ra.ranova.DF(ii+1); 
+        DF1 = ra.ranova.DF(ii); DF2 = ra.ranova.DF(ii+2); 
         p = ra.ranova{ii,ra.selected_pval_col};
         eta = ra.ranova.Eta2{ii}; etaG = ra.ranova.Eta2G{ii}; vtxt = ra.ranova.Row{ii};
         disptxt(vtxt,DF1,DF2,F,p,etaG);
