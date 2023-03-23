@@ -7,7 +7,7 @@ xlims = get(ha,'xlim');
 xdata = get(ha,'xtick');
 xticklabels  = get(ha,'xticklabels');
 % ha1 = duplicate_axes(ha,[0 0.25 0 0.3]); format_axes(ha1); ylim(xlims); 
-ha1 = duplicate_axes(ha,pos); format_axes(ha1); ylim(xlims); 
+ha1 = duplicate_axes(ha,pos); format_axes(ha1); ylim(xlims);
 ptable = pvt;
 set(ha1,'xtick',xticks,'xticklabels',[],'ytick',xdata,'yticklabels',xticklabels); xtickangle(45)
 
