@@ -86,13 +86,16 @@ if isvector(distD) & strcmp(do_mean,'No')
         [bar1 xs] = hist(bd,bins); bar1 = 100*bar1/sum(bar1);
         allBars = [allBars;bar1];
     end
-    hb = bar(xs,allBars');
+    allBars = cumsum(allBars,2);
+%     hb = bar(xs,allBars');
+    hb = plot(xs,allBars);
     for ii = 1:length(hb)
-        set(hb(ii),'facecolor',cols{ii},'barwidth',0.7,'EdgeColor','none','BaseValue',bv,'ShowBaseline','off');
+%         set(hb(ii),'facecolor',cols{ii},'barwidth',0.7,'EdgeColor','none','BaseValue',bv,'ShowBaseline','off');
+        set(hb(ii),'color',cols{ii});
     end
     xlim([bins(1)-(incr/2) bins(end)+(incr/2)]);
     ylim([0 maxY]);
-    set(gca,'TickDir','out','FontSize',7,'FontWeight','Normal','XTick',bins(1:2:end),'linewidth',0.25);
+%     set(gca,'TickDir','out','FontSize',7,'FontWeight','Normal','XTick',bins(1:2:end),'linewidth',0.25);
     ha = gca;
     % putLegend(gca,legs,specs,'colors',cols);
     if length(cumPos) > 1
@@ -112,7 +115,7 @@ if isvector(distD) & strcmp(do_mean,'No')
         text(xlims(1)+dx/10,120,'Cumulative','FontSize',9,'FontWeight','Normal');
     end
 
-    sigR = significanceTesting(distD);
+%     sigR = significanceTesting(distD);
 
     if ~isempty(barGraph)
         barPos = barGraph{2};
