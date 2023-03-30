@@ -53,10 +53,8 @@ hold on;
 for ii = 1:length(xdata)
 %     hb = bar(xdata(ii),means(ii),'BaseValue',bv,'ShowBaseline','off','barwidth',barwidth);
     if ~isnan(raw_data)
-        xscat = ones(size(raw_data(:,ii)))*ii;
-        sch = scatter(xscat,raw_data(:,ii),dot_size,cols{ii},dots);
-        sch.MarkerFaceAlpha = .5;
-        sch.MarkerEdgeAlpha = .5;
+        xscat = ones(size(raw_data(:,ii))*ii;
+        scatter(xscat,raw_data(:,ii),dots,'color',cols{ii},'markersize',dot_size);
 %         plot(ii,raw_data(:,ii),dots,'color',cols{ii},'markersize',dot_size);
     end
     hb = bar_patch(xdata(ii),means(ii),sems(ii),barwidth);
