@@ -22,6 +22,9 @@ addOptional(p,'barwidth',0.8);
 addOptional(p,'sigLinesStartYFactor',0.1);
 addOptional(p,'xdata',1:length(means));
 addOptional(p,'capsize',3);
+addOptional(p,'raw_data',NaN,@isnumeric);
+addOptional(p,'dots','.',@ischar);
+addOptional(p,'dot_size',5,@isnumeric);
 parse(p,means,sems,combs,sig,varargin{:});
 
 mData = evalin('base','mData'); magfac = mData.magfac;
@@ -41,6 +44,10 @@ xdata = p.Results.xdata;
 capsize = p.Results.capsize;
 xdatai = xdata;
 barwidth = p.Results.barwidth;
+raw_data = p.Results.raw_data;
+dots = p.Results.dots;
+dot_size = p.Results.dot_size;
+
 
 hold on;
 for ii = 1:length(xdata)
@@ -51,6 +58,9 @@ for ii = 1:length(xdata)
 %     errorbar(xdata(ii), means(ii), [],sems(ii), 'k', 'linestyle', 'none','CapSize',3);
 %     errorbar(xdata(ii), means(ii), sems(ii),[], 'w', 'linestyle', 'none','CapSize',3);
     hbs(ii) = hb;
+    if ~isnan(raw_data)
+        plot(ii,raw_data(:,ii),dots,'color',cols{ii},'markersize',dot_size);
+    end
 end
 % xlim([0.5 length(means)+0.5]);
 
