@@ -92,6 +92,10 @@ if isempty(posthoc)
     return;
 end
 
+if isempty(posthoc{1})
+    return;
+end
+
 out.MC = do_MC(rm,alpha,posthoc); % all multiple comparisons
 
 % if nwf <= 2
