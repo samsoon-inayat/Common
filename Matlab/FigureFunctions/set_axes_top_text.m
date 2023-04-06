@@ -1,6 +1,5 @@
 function ht = set_axes_top_text(hf,sel_ax_i,str,shifts)
 hf_pos = get(hf,'Position'); 
- 
 for ii = 1:length(sel_ax_i)
     sel_ax = sel_ax_i(ii);
     pos = get(sel_ax,'position');
