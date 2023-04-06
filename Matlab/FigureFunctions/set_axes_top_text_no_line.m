@@ -2,6 +2,10 @@ function ht = set_axes_top_text(hf,sel_ax_i,str,shifts)
 hf_pos = get(hf,'Position'); 
   mData = evalin('base','mData');
   FS = 6*mData.magfac;
+  
+  if strcmp(str,'ns');
+      shifts = shifts + [0 0.02 0 0];
+  end
 for ii = 1:length(sel_ax_i)
     sel_ax = sel_ax_i(ii);
     pos = get(sel_ax,'position');

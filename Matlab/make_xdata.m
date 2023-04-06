@@ -12,3 +12,8 @@ for ii = 1:length(group_sizes)
         xdata = [xdata this_set];
     end
 end
+
+if length(gaps) > 2
+    xdata((1+sum(group_sizes)/2):end) = xdata((1+sum(group_sizes)/2):end) + gaps(3);
+end
+
