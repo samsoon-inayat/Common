@@ -1,41 +1,72 @@
-function print_for_manuscript(ra)
+function print_for_manuscript(ra,tst)
 
-disp(sprintf('\n'))
-nbf = ra.number_of_between_factors;
-nwf = ra.number_of_within_factors;
+if ~exist('tst','var')
+    tst = 'ANOVA'
+end
 
-if nbf == 0
-    for ii = 1:2:size(ra.ranova,1)
+if strcmp(tst,'ANOVA')
+    disp(sprintf('\n'))
+    nbf = ra.number_of_between_factors;
+    nwf = ra.number_of_within_factors;
+
+    if nbf == 0
+        for ii = 1:2:size(ra.ranova,1)
+            F = ra.ranova.F(ii);
+            DF1 = ra.ranova.DF(ii); DF2 = ra.ranova.DF(ii+1); 
+            p = ra.ranova{ii,ra.selected_pval_col};
+            eta = ra.ranova.Eta2{ii}; etaG = ra.ranova.Eta2G{ii}; vtxt = ra.ranova.Row{ii};
+            disptxt(vtxt,DF1,DF2,F,p,etaG);
+        end
+    end
+    if nbf == 1
+        ii = 2;
         F = ra.ranova.F(ii);
         DF1 = ra.ranova.DF(ii); DF2 = ra.ranova.DF(ii+1); 
         p = ra.ranova{ii,ra.selected_pval_col};
         eta = ra.ranova.Eta2{ii}; etaG = ra.ranova.Eta2G{ii}; vtxt = ra.ranova.Row{ii};
         disptxt(vtxt,DF1,DF2,F,p,etaG);
+        for ii = 4:3:size(ra.ranova,1)
+            F = ra.ranova.F(ii);
+            DF1 = ra.ranova.DF(ii); DF2 = ra.ranova.DF(ii+2); 
+            p = ra.ranova{ii,ra.selected_pval_col};
+            eta = ra.ranova.Eta2{ii}; etaG = ra.ranova.Eta2G{ii}; vtxt = ra.ranova.Row{ii};
+            disptxt(vtxt,DF1,DF2,F,p,etaG);
+        end
+        for ii = 5:3:size(ra.ranova,1)
+            F = ra.ranova.F(ii);
+            DF1 = ra.ranova.DF(ii); DF2 = ra.ranova.DF(ii+1); 
+            p = ra.ranova{ii,ra.selected_pval_col};
+            eta = ra.ranova.Eta2{ii}; etaG = ra.ranova.Eta2G{ii}; vtxt = ra.ranova.Row{ii};
+            disptxt(vtxt,DF1,DF2,F,p,etaG);
+        end
     end
+    disp(sprintf('\n'))
 end
-if nbf == 1
-    ii = 2;
-    F = ra.ranova.F(ii);
-    DF1 = ra.ranova.DF(ii); DF2 = ra.ranova.DF(ii+1); 
-    p = ra.ranova{ii,ra.selected_pval_col};
-    eta = ra.ranova.Eta2{ii}; etaG = ra.ranova.Eta2G{ii}; vtxt = ra.ranova.Row{ii};
-    disptxt(vtxt,DF1,DF2,F,p,etaG);
-    for ii = 4:3:size(ra.ranova,1)
-        F = ra.ranova.F(ii);
-        DF1 = ra.ranova.DF(ii); DF2 = ra.ranova.DF(ii+2); 
-        p = ra.ranova{ii,ra.selected_pval_col};
-        eta = ra.ranova.Eta2{ii}; etaG = ra.ranova.Eta2G{ii}; vtxt = ra.ranova.Row{ii};
-        disptxt(vtxt,DF1,DF2,F,p,etaG);
+
+if strcmp(tst,'KS2')
+%     disp(sprintf('\n'))
+    DF1 = ra.DF1; DF2 = ra.DF2; KS = ra.ks2stat; p = ra.p;
+    if p < 0.001
+        txt = sprintf('[KS-Test D(%d,%d) = %.2f, p < %.3f]',DF1,DF2,KS,0.001);
+    else
+        txt = sprintf('[KS-Test D(%d,%d) = %.2f, p = %.3f]',DF1,DF2,KS,p);
     end
-    for ii = 5:3:size(ra.ranova,1)
-        F = ra.ranova.F(ii);
-        DF1 = ra.ranova.DF(ii); DF2 = ra.ranova.DF(ii+1); 
-        p = ra.ranova{ii,ra.selected_pval_col};
-        eta = ra.ranova.Eta2{ii}; etaG = ra.ranova.Eta2G{ii}; vtxt = ra.ranova.Row{ii};
-        disptxt(vtxt,DF1,DF2,F,p,etaG);
-    end
+    disp(txt);
 end
-disp(sprintf('\n'))
+
+
+if strcmp(tst,'t2')
+%     disp(sprintf('\n'))
+%     [t2.h,t2.p,t2coi,t2.tstat] = ttest2(allValsG{1},allValsG{2});
+    DF1 = ra.tstat.df; tstat = ra.tstat.tstat; p = ra.p; cd = ra.cd;
+    if p < 0.001
+        txt = sprintf('[t-Test t(%d) = %.2f, p < %.3f, %ccd = %0.2f]',DF1,tstat,0.001,951,cd);
+    else
+        txt = sprintf('[t-Test t(%d) = %.2f, p = %.3f, %ccd = %0.2f]',DF1,tstat,p,951,cd);
+    end
+    disp(txt);
+end
+
 
 
 function disptxt(vtxt,DF1,DF2,F,p,eta)
