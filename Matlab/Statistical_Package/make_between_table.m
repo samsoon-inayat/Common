@@ -1,4 +1,4 @@
-function between = make_between_table(data,dvn)
+function [between,betweenNC] = make_between_table(data,dvn)
 ngroups = size(data,1);
 
 if ngroups == 1
@@ -8,6 +8,7 @@ if ngroups == 1
     end
     between = array2table(dataT);
     between.Properties.VariableNames = dvn;
+    betweenNC = between;
     return;
 end
 
@@ -24,6 +25,7 @@ if ngroups > 1
     end
     between = array2table([group dataT]);
     between.Properties.VariableNames = {'Group',dvn{:}};
+    betweenNC = between;
     between.Group = categorical(between.Group);
 end
 
