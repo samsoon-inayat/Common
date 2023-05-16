@@ -74,11 +74,15 @@ if p.Results.incr ~= inf
 else
     incr = ((maxB - minB)/20);
 end
-
-bins = (minB+incr):incr:(maxB-incr);
+num_of_bin_vals = (maxB-minB)/incr;
+if num_of_bin_vals  > 500
+    error('too many bins');
+end
+bins = (minB):incr:(maxB);
 % else
 %     bins = incr:incr:(maxB-incr);
 % end
+
 if isvector(distD) & strcmp(do_mean,'No')
     allBars = [];
     for ii = 1:length(distD)
@@ -135,7 +139,7 @@ if isvector(distD) & strcmp(do_mean,'No')
     end
 
     if nargout == 4
-        varargout{1} = sigR;
+        varargout{1} = ylim;
     end
 
     axes(ha);
@@ -224,5 +228,8 @@ if ismatrix(distD) && strcmp(do_mean,'Yes')
     axes(ha);
     if ~isempty(legs)
         putLegend(gca,legs,'colors',cols);
+    end
+    if nargout == 4
+        varargout{1} = ylim;
     end
 end
