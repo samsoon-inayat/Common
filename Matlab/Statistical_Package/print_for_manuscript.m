@@ -47,9 +47,9 @@ if strcmp(tst,'KS2')
 %     disp(sprintf('\n'))
     DF1 = ra.DF1; DF2 = ra.DF2; KS = ra.ks2stat; p = ra.p;
     if p < 0.001
-        txt = sprintf('[KS-Test D(%d,%d) = %.2f, p < %.3f]',DF1,DF2,KS,0.001);
+        txt = sprintf('[KS-Test [D(%d,%d) = %.2f, p < %.3f]',DF1,DF2,KS,0.001);
     else
-        txt = sprintf('[KS-Test D(%d,%d) = %.2f, p = %.3f]',DF1,DF2,KS,p);
+        txt = sprintf('[KS-Test [D(%d,%d) = %.2f, p = %.3f]',DF1,DF2,KS,p);
     end
     disp(txt);
 end
