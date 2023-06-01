@@ -1,4 +1,4 @@
-function ht = set_bar_graph_sub_xtick_text(ff,gv,ticklabels,options)
+function ht = set_sub_graph_text(ff,gv,ticklabels,shift_line,shift_txt)
 mData = evalin('base','mData');
 magfac = mData.magfac;
 
@@ -9,16 +9,16 @@ pos1 = get(ff.h_axes(1,1),'Position'); pos2 = get(ff.h_axes(1,2),'Position');
 
 ylnu = pos1(2)/hf_pos(4);
 
-if exist('options','var')
-    if length(options) == 1
-        shifts = options{1};
-    else
-        shifts = [0 0];
-    end
-    ylnu = ylnu - (-shifts(1));
-else
-    shifts = [0 0];
-end
+% if exist('options','var')
+%     if length(options) == 1
+%         shifts = options{1};
+%     else
+%         shifts = [0 0];
+%     end
+%     ylnu = ylnu - (-shifts(1));
+% else
+%     shifts = [0 0];
+% end
 
 
 inds = 1:gv:length(ff.h_axes);
@@ -27,8 +27,12 @@ for iii = 1:length(inds)
     pos1 = get(ff.h_axes(1,ii),'Position'); pos2 = get(ff.h_axes(1,ii+1),'Position');
     xlnu1 = pos1(1)/hf_pos(3); xlnu2 = (pos1(1)+pos1(3))/hf_pos(3);
     xlnu1p = pos2(1)/hf_pos(3); xlnu2p = (pos2(1)+pos2(3))/hf_pos(3);
+    ylnu = pos1(2)/hf_pos(4);
+    xlnu1 = xlnu1 - (-shift_line(1)); ylnu = ylnu - (-shift_line(2));
+    xlnu2p = xlnu2p - (-shift_line(3));
     annotation('line',[xlnu1 xlnu2p],[ylnu ylnu],'linewidth',0.25);
-    sztxt = [(xlnu1+(xlnu2p-xlnu1)/3) ylnu-(-shifts(2)) xlnu2-xlnu1 0];
+%     sztxt = [(xlnu1+(xlnu2p-xlnu1)/3) ylnu-(-shifts(2)) xlnu2-xlnu1 0];
+    sztxt = [xlnu1-(-shift_txt(1)) ylnu-(-shift_txt(2)) xlnu2p-xlnu1-(-shift_txt(3)) 0-(-shift_txt(4))];
     ht(ii)= annotation('textbox',sztxt,'String',ticklabels{iii},'FontSize',magfac*6,'Margin',0,'EdgeColor','none','FontWeight','Normal');
 end
 n = 0;

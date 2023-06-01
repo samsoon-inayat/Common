@@ -15,7 +15,7 @@ if strcmp(tst,'ANOVA')
             DF1 = ra.ranova.DF(ii); DF2 = ra.ranova.DF(ii+1); 
             p = ra.ranova{ii,ra.selected_pval_col};
             eta = ra.ranova.Eta2{ii}; etaG = ra.ranova.Eta2G{ii}; vtxt = ra.ranova.Row{ii};
-            disptxt(vtxt,DF1,DF2,F,p,etaG);
+            disptxt(vtxt,DF1,DF2,F,p,etaG,ra.alpha);
         end
     end
     if nbf == 1
@@ -24,20 +24,20 @@ if strcmp(tst,'ANOVA')
         DF1 = ra.ranova.DF(ii); DF2 = ra.ranova.DF(ii+1); 
         p = ra.ranova{ii,ra.selected_pval_col};
         eta = ra.ranova.Eta2{ii}; etaG = ra.ranova.Eta2G{ii}; vtxt = ra.ranova.Row{ii};
-        disptxt(vtxt,DF1,DF2,F,p,etaG);
+        disptxt(vtxt,DF1,DF2,F,p,etaG,ra.alpha);
         for ii = 4:3:size(ra.ranova,1)
             F = ra.ranova.F(ii);
             DF1 = ra.ranova.DF(ii); DF2 = ra.ranova.DF(ii+2); 
             p = ra.ranova{ii,ra.selected_pval_col};
             eta = ra.ranova.Eta2{ii}; etaG = ra.ranova.Eta2G{ii}; vtxt = ra.ranova.Row{ii};
-            disptxt(vtxt,DF1,DF2,F,p,etaG);
+            disptxt(vtxt,DF1,DF2,F,p,etaG,ra.alpha);
         end
         for ii = 5:3:size(ra.ranova,1)
             F = ra.ranova.F(ii);
             DF1 = ra.ranova.DF(ii); DF2 = ra.ranova.DF(ii+1); 
             p = ra.ranova{ii,ra.selected_pval_col};
             eta = ra.ranova.Eta2{ii}; etaG = ra.ranova.Eta2G{ii}; vtxt = ra.ranova.Row{ii};
-            disptxt(vtxt,DF1,DF2,F,p,etaG);
+            disptxt(vtxt,DF1,DF2,F,p,etaG,ra.alpha);
         end
     end
     disp(sprintf('\n'))
@@ -69,7 +69,7 @@ end
 
 
 
-function disptxt(vtxt,DF1,DF2,F,p,eta)
+function disptxt(vtxt,DF1,DF2,F,p,eta,alpha)
 
 if p < 0.001
     txt = sprintf('%s   [F(%d,%d) = %.2f, p < %*.3f, %c2 = %0.2f]',vtxt,DF1,DF2,F,4,0.001,951,eta);
@@ -87,7 +87,7 @@ ind = strfind(txt,'2 = 0');
 txt(ind+4) = []; 
 %             ind = strfind(txt,'2G = 0');
 %             txt(ind+5) = []; 
-if p < 0.05
+if p < alpha
     txt = sprintf('%s <--',txt);
 end
 disp(txt)

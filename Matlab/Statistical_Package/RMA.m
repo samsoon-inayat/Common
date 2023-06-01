@@ -35,6 +35,7 @@ out.rm = rm;
 out.mauchly = mauchly(rm);
 out.ranova = rm.ranova('WithinModel',rm.WithinModel);
 ranovatbl = out.ranova;
+out.alpha = alpha;
 % out.eta2 = ranovatbl.SumSq(1)/(ranovatbl.SumSq(2)+ranovatbl.SumSq(1));
 sph = out.mauchly;
 if sph.pValue>=0.05
