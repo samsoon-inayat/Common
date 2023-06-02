@@ -23,8 +23,8 @@ ylnu = pos1(2)/hf_pos(4);
 
 inds = 1:gv:length(ff.h_axes);
 for iii = 1:length(inds)
-    ii = inds(iii);
-    pos1 = get(ff.h_axes(1,ii),'Position'); pos2 = get(ff.h_axes(1,ii+1),'Position');
+    ii = inds(iii); ii1 = ii+gv-1;
+    pos1 = get(ff.h_axes(1,ii),'Position'); pos2 = get(ff.h_axes(1,ii1),'Position');
     xlnu1 = pos1(1)/hf_pos(3); xlnu2 = (pos1(1)+pos1(3))/hf_pos(3);
     xlnu1p = pos2(1)/hf_pos(3); xlnu2p = (pos2(1)+pos2(3))/hf_pos(3);
     ylnu = pos1(2)/hf_pos(4);
