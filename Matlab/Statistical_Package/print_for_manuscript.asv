@@ -1,11 +1,11 @@
 function print_for_manuscript(ra,tst)
 
 if ~exist('tst','var')
-    tst = 'ANOVA';
+    tst = 'ANOVA'
 end
 
 if strcmp(tst,'ANOVA')
-    disp(sprintf('\n'))
+%     disp(sprintf('\n'))
     nbf = ra.number_of_between_factors;
     nwf = ra.number_of_within_factors;
 
@@ -40,7 +40,7 @@ if strcmp(tst,'ANOVA')
             disptxt(vtxt,DF1,DF2,F,p,etaG,ra.alpha);
         end
     end
-    disp(sprintf('\n'))
+%     disp(sprintf('\n'))
 end
 
 if strcmp(tst,'KS2')

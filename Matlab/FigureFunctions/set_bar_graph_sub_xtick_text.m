@@ -29,7 +29,7 @@ for ii = 1:length(inds)
             ylnut = ylnut + shifts(2);
         end
     end
-    ht(ii)= annotation('textbox',[nx(1) 0 diff(nx) ylnut],'String',ticklabels{ii},'FontSize',magfac*6,'Margin',0,'EdgeColor','w','FontWeight','Normal');
+    ht(ii)= annotation('textbox',[nx(1) 0 diff(nx) ylnut],'String',ticklabels{ii},'FontSize',magfac*6,'Margin',0,'EdgeColor','none','FontWeight','Normal');
 end
 
 
