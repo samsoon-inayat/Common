@@ -1,0 +1,55 @@
+function [xdata,mVar,semVar,combs,p,h,nB] = get_vals_RMA(mData,ra,facs,gaps)
+
+mData.colors = [mData.colors;mData.colors;mData.colors;mData.colors;mData.colors];
+
+factors = facs{1};
+posthoc = facs{2};
+if length(facs) == 3
+    alpha = facs{3};
+else
+    alpha = ra.alpha;
+end
+
+nfac = length(strfind(factors,':'))+1;
+
+poscol = strfind(factors,':');
+if isempty(poscol)
+    facs = {factors};
+else
+    facs = [];
+    facs{1} = factors(1:(poscol(1)-1));
+    for ii = 2:nfac
+        if ii == nfac
+            facs{ii} = factors((poscol(ii-1)+1):end);
+        else
+            facs{ii} = factors((poscol(ii-1)+1):(poscol(ii)-1));
+        end
+    end
+end
+facs = fliplr(facs);
+[EMs,GS] = RMA_get_EM_GS(ra.rm,facs);
+
+mVar = EMs.Mean;
+semVar = EMs.Formula_StdErr;
+
+if nfac == 1
+    Lev1 = ra.within.levels(strcmp(ra.within.factors,factors));
+    nB = Lev1;
+    xdata = make_xdata(nB,gaps); 
+    mcs = multcompare(ra.rm,facs,'ComparisonType',posthoc,'Alpha',alpha);
+    [combs,p] = RMA_populate_combs_and_ps(ra.rm,EMs,mcs);
+    h = p < alpha;
+end
+
+if nfac == 2
+    fac1 = facs{1};
+    fac2 = facs{2};
+    Lev1 = ra.within.levels(strcmp(ra.within.factors,fac1));
+    Lev2 = ra.within.levels(strcmp(ra.within.factors,fac2));
+    nB = repmat(Lev2,1,Lev1);
+    xdata = make_xdata(nB,gaps);
+    mcs = multcompare(ra.rm,fac2,'By',fac1,'ComparisonType',posthoc,'Alpha',alpha);
+    [combs,p] = RMA_populate_combs_and_ps(ra.rm,EMs,mcs);
+    h = p < alpha;
+end
+

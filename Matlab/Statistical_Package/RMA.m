@@ -25,6 +25,12 @@ if nbf > 1 || nwf > 5
     error;
 end
 within_factors = within.Properties.VariableNames;
+
+out.within.factors = within_factors';
+for ii = 1:size(within,2)
+    out.within.levels(ii,1) = length(unique(within{:,ii}));
+end
+
 %% define repeated measures model and do ranova
 wilk_text = build_wilk_text(between,between_factors);
 rm = fitrm(between,wilk_text);
@@ -87,7 +93,6 @@ out.ranova = ranovatbl;
 % would be Type_Dominance
 %*********************
 all_factors = [between_factors within_factors];
-[out.EM,out.GS] = get_EM_GS(rm,within_factors); % est_marg_means
 out.all_factors = all_factors';
 if isempty(posthoc)
     return;
@@ -96,7 +101,7 @@ end
 if isempty(posthoc{1})
     return;
 end
-
+[out.EM,out.GS] = get_EM_GS(rm,within_factors); % est_marg_means
 out.MC = do_MC(rm,alpha,posthoc); % all multiple comparisons
 
 % if nwf <= 2
@@ -236,36 +241,14 @@ function MC = do_MC(rm,alpha,posthoc)
 % MC.tukey_kramer = do_multiple_comparisons(rm,'tukey-kramer',alpha);
 for ii = 1:length(posthoc)
     if strcmp(posthoc{ii},'tukey-kramer')
-        cmdTxt = sprintf('MC.tukey_kramer = do_multiple_comparisons(rm,''%s'',alpha);',posthoc{ii},posthoc{ii});
+        cmdTxt = sprintf('MC.tukey_kramer = RMA_do_multiple_comparisons(rm,''%s'',alpha);',posthoc{ii});
     else
-        cmdTxt = sprintf('MC.%s = do_multiple_comparisons(rm,''%s'',alpha);',posthoc{ii},posthoc{ii});
+        cmdTxt = sprintf('MC.%s = RMA_do_multiple_comparisons(rm,''%s'',alpha);',posthoc{ii},posthoc{ii});
     end
     eval(cmdTxt);
 end
 
-function mcs = do_multiple_comparisons(rm,comparison_type,alpha)
-all_factors = [rm.BetweenFactorNames rm.WithinFactorNames];
-for ii = 1:length(all_factors)
-    nameOfVariable = sprintf('mcs.%s',all_factors{ii});
-    rhs = sprintf('multcompare(rm,all_factors{ii},''ComparisonType'',''%s'',''Alpha'',%d);',comparison_type,alpha);
-    cmdTxt = sprintf('%s = %s;',nameOfVariable,rhs); eval(cmdTxt)
-end
-if length(all_factors) > 1
-    combs = flipud(perms(1:length(all_factors)));
-%     combs = combs(:,1:2);
-    combs = unique(combs(:,[1 2]),'rows');
-%     combs = nchoosek(1:length(all_factors),2);
-    for ii = 1:size(combs,1)
-        ind1 = combs(ii,1); ind2 = combs(ii,2);
-        nameOfVariable = sprintf('mcs.%s_by_%s',all_factors{ind1},all_factors{ind2});
-        rhs = sprintf('multcompare(rm,all_factors{ind1},''By'',all_factors{ind2},''ComparisonType'',''%s'',''Alpha'',%d);',comparison_type,alpha);
-        cmdTxt = sprintf('%s = %s;',nameOfVariable,rhs); 
-        eval(cmdTxt);
-    end
-end
-
-
-function out = populate_combs_ps(out)
+function out = populate_combs_ps(out) % this function adds combs and p to out
 rm = out.rm;
 EMs = out.EM;
 MC = out.MC;
