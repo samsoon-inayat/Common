@@ -35,8 +35,8 @@ if length(all_factors) == 2
         indCol1 = find(strcmp(WithinDesgin.Properties.VariableNames,factor1));
         indCol2 = find(strcmp(WithinDesgin.Properties.VariableNames,factor2));
 %         cmdTxt = sprintf('mc_tbl = mcs.%s_%s;',factor1,factor2); eval(cmdTxt);
-        cmdTxt = sprintf('mc_tbl1 = mcs;'); eval(cmdTxt);
-%         cmdTxt = sprintf('mc_tbl2 = mcs.%s_by_%s;',factor2,factor1); eval(cmdTxt);
+        cmdTxt = sprintf('mc_tbl1 = mcs.%s_by_%s;',factor1,factor2); eval(cmdTxt);
+        cmdTxt = sprintf('mc_tbl2 = mcs.%s_by_%s;',factor2,factor1); eval(cmdTxt);
 
         % get the est marg mean rows and first two columns as double type
         % variables instead of categorical
@@ -54,26 +54,29 @@ if length(all_factors) == 2
             end
         end
         
+        for ii = 1:size(mc_tbl2,1)
+            tmpstr = string(mc_tbl2{ii,1:3});
+            for sii = 1:length(tmpstr)
+               mc_tbl2_rows(ii,sii)  = str2num(tmpstr(sii));
+            end
+        end
+
         for rr = 1:size(combs,1)
             comp1_ids = est_marg_rows(combs(rr,1),:);
             comp2_ids = est_marg_rows(combs(rr,2),:);
             if comp1_ids == comp2_ids
                 continue;
             end
-            
             if comp1_ids(1) == comp2_ids(1)
                 row_to_find = [comp1_ids comp2_ids(2)];
-                if isequal(row_to_find,[1 3 5])
-                    n = 0;
-                end
+                ind = ismember(mc_tbl2_rows,row_to_find,'rows');
+                p(rr) = mc_tbl2{ind,6};
+            end
+            if comp1_ids(2) == comp2_ids(2)
+                row_to_find = [comp1_ids(2) comp1_ids(1) comp2_ids(1)];
                 ind = ismember(mc_tbl1_rows,row_to_find,'rows');
                 p(rr) = mc_tbl1{ind,6};
             end
-%             if comp1_ids(2) == comp2_ids(2)
-%                 row_to_find = [comp1_ids(2) comp1_ids(1) comp2_ids(1)];
-%                 ind = ismember(mc_tbl1_rows,row_to_find,'rows');
-%                 p(rr) = mc_tbl1{ind,6};
-%             end
         end
     end
     if nbf == 1
