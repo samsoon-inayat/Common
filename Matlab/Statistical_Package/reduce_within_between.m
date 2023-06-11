@@ -1,7 +1,8 @@
 function [dataTR,withinR] = reduce_within_between(dataT,withini,redFi,redV)
 
 if length(redFi) > 1
-    redF = sort(redFi);
+    [redF,ib] = sort(redFi);
+    redV = redV(ib);
     facnames = withini.Properties.VariableNames;
     within = withini;
     for fi = 1:length(redF)

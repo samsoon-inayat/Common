@@ -4,6 +4,14 @@ if ~exist('tst','var')
     tst = 'ANOVA';
 end
 
+if isfield(ra,'total_tests')
+    for ii = 1:length(ra.ras)
+        disp(ra.test_fac_vals{ii});
+        print_for_manuscript(ra.ras{ii});
+    end
+    return;
+end
+
 if strcmp(tst,'ANOVA')
     disp(sprintf('\n'))
     nbf = ra.number_of_between_factors;

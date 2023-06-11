@@ -1,5 +1,5 @@
 function out = RMA(between,withini,extras)
-
+out.withinD = withini;
 within = make_within_categorical(withini);
 if ~exist('extras','var')
     extras = {0.05,{'hsd'}};
