@@ -1,9 +1,11 @@
-function view_results_rmanova(ha,ra,factors,posthoc,gaps,tcolors,limsY,mData)
+function [xdata,hbs] = view_results_rmanova(ha,ra,factors,posthoc,gaps,tcolors,limsY,mData)
 
 if isempty(ha)
     figure(100);clf;
     plot(0,0);
     ha = gca;
+else
+    axes(ha);
 end
 
 if isempty(limsY)
