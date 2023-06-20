@@ -8,7 +8,7 @@ hf_pos = get(ff.hf,'Position');
 pos1 = get(ff.h_axes(1,1),'Position'); 
 
 if size(ff.h_axes,2) > 1
-pos2 = get(ff.h_axes(1,2),'Position');
+    pos2 = get(ff.h_axes(1,2),'Position');
 end
 
 ylnu = pos1(2)/hf_pos(4);
