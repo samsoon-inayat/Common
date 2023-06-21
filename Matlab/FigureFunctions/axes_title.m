@@ -1,4 +1,8 @@
-function ht = axes_title(ff,gv,ticklabels,shift_line,shift_txt)
+function ht = axes_title(ff,gv,ticklabels,shift_line,shift_txt,annline)
+
+if ~exist('annline','var')
+    annline = 'yes';
+end
 mData = evalin('base','mData');
 magfac = mData.magfac;
 
@@ -18,7 +22,9 @@ for iii = 1:length(inds)
     ylnu = pos1(2)/hf_pos(4);
     xlnu1 = xlnu1 - (-shift_line(1)); ylnu = ylnu - (-shift_line(2));
     xlnu2p = xlnu2p - (-shift_line(3));
+    if strcmp(annline,'yes')
     annotation('line',[xlnu1 xlnu2p],[ylnu ylnu],'linewidth',0.25);
+    end
 %     sztxt = [(xlnu1+(xlnu2p-xlnu1)/3) ylnu-(-shifts(2)) xlnu2-xlnu1 0];
     sztxt = [xlnu1-(-shift_txt(1)) ylnu-(-shift_txt(2)) xlnu2p-xlnu1-(-shift_txt(3)) 0-(-shift_txt(4))];
     ht(iii)= annotation('textbox',sztxt,'String',ticklabels{iii},'FontSize',magfac*6,'Margin',0,'EdgeColor','none','FontWeight','Normal');
