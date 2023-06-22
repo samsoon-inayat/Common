@@ -67,6 +67,8 @@ if nfac == 2
 %     mcs = multcompare(ra.rm,fac2,'By',fac1,'ComparisonType',posthoc,'Alpha',alpha);
     [combs,p] = RMA_populate_combs_and_ps(ra.rm,EMs,mcs);
     h = p < alpha;
+    [h1,ccis] = eliminate_alternate_combs(combs,p,h,nB);
+    combs = [combs ccis];
     if strcmp(simple,'yes')
         h = eliminate_alternate_combs(combs,p,h,nB);
     end

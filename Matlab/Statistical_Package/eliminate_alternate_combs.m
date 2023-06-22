@@ -1,4 +1,4 @@
-function h = eliminate_alternate_combs(combs,p,h,nB)
+function [h,zs] = eliminate_alternate_combs(combs,p,h,nB)
 
 total_bars = sum(nB);
 
@@ -22,4 +22,6 @@ for cci = 1:size(combs,1)
         end
     end
 end
+zs = zeros(size(combs,1),1);
+zs(ccis) = 1;
 h(ccis) = 0;

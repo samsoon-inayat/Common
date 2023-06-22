@@ -1,4 +1,4 @@
-function [xdata,hbs] = view_results_rmanova(ha,ra,factors,posthoc,gaps,tcolors,limsY,mData)
+function [xdata,hbs] = view_results_rmanova(ha,ra,facs,gaps,tcolors,limsY,mData)
 
 if isempty(ha)
     figure(100);clf;
@@ -14,7 +14,11 @@ else
     mY = limsY(1); MY = limsY(2); ysp = limsY(3);
 end
 
-[xdata,mVar,semVar,combs,p,h] = get_vals_RMA(mData,ra,{factors,posthoc},gaps);
+[xdata,mVar,semVar,combs,p,h] = get_vals_RMA(mData,ra,facs,gaps);
+
+if get_p_val_ranova(ra,facs{1}) > ra.alpha
+%     combs = [];
+end
 
 if ~exist('ysp','var')
     ysp = max(mVar)/10;

@@ -48,6 +48,7 @@ raw_data = p.Results.raw_data;
 dots = p.Results.dots;
 dot_size = p.Results.dot_size;
 
+osigcolor = sigColor;
 
 hold on;
 for ii = 1:length(xdata)
@@ -104,11 +105,25 @@ if numberOfSigLines > 0
             yy = ayy(count); dy = ayy(2) - ayy(1);
             b1  = combs(inds(jj),1);
             b2  = combs(inds(jj),2);
+            if size(combs,2) == 3
+                ac  = combs(inds(jj),3);
+            else
+                ac = 0;
+            end
             x1 = xdata(b1)+dx/40;
             x2 = xdata(b2)- dx/40;
+            if ~logical(ac)
+                linst = '-';
+                lwid = sigLineWidth;
+                sigColor = osigcolor;
+            else
+               linst = '-.';
+                lwid = sigLineWidth + sigLineWidth;
+                sigColor = 'b';
+            end
             line([x1 x2], [yy yy],'linewidth',sigLineWidth,'color',sigColor);
-            line([x1 x1], [yy-(ySpacing/3) yy],'linewidth',sigLineWidth,'color',sigColor);
-            line([x2 x2], [yy-(ySpacing/3) yy],'linewidth',sigLineWidth,'color',sigColor);
+            line([x1 x1], [yy-(ySpacing/3) yy],'linewidth',lwid,'color',sigColor,'LineStyle',linst);
+            line([x2 x2], [yy-(ySpacing/3) yy],'linewidth',lwid,'color',sigColor,'LineStyle',linst);
 %             if count == 1
 %                 line([x1 x1], [means(b1)+sems(b1)+dy/15 yy],'linewidth',sigLineWidth,'color',sigColor);
 %                 line([x2 x2], [means(b2)+sems(b2)+dy/15 yy],'linewidth',sigLineWidth,'color',sigColor);
@@ -162,4 +177,4 @@ end
 
 myys = 1.1*myys;
 
-
+set(gcf,'Renderer','painters')
