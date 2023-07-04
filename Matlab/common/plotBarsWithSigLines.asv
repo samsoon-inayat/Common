@@ -134,7 +134,7 @@ if numberOfSigLines > 0
         pvalue = tps(rpi);
         sigText = getNumberOfAsterisks(pvalue);
         xt1 = x1 + (x2-x1)/2;
-        text(xt1,yy+sigAsteriskyshift,sigText,'FontSize',sigAsteriskFontSize,'HorizontalAlignment','center','Color',sigColor);
+        text(xt1,yy+sigLinesStartYFactor,sigText,'FontSize',sigAsteriskFontSize,'HorizontalAlignment','center','Color',sigColor);
         all_yys(jj) = yy; jj = jj + 1;
         rpi = rpi + 1;
         if rpi > size(tcombs,1)

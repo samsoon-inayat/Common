@@ -74,3 +74,4 @@ if nfac == 2
     end
 end
 
+[combs,p,h] = rearrange_combs(combs,p,h);

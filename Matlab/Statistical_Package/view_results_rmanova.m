@@ -1,4 +1,4 @@
-function [xdata,hbs] = view_results_rmanova(ha,ra,facs,gaps,tcolors,limsY,mData)
+function [hbs,xdata,mVar,semVar,combs,p,h] = view_results_rmanova(ha,ra,facs,gaps,tcolors,limsY,mData)
 
 if isempty(ha)
     figure(100);clf;
@@ -11,7 +11,7 @@ end
 if isempty(limsY)
     mY = 0;
 else
-    mY = limsY(1); MY = limsY(2); ysp = limsY(3);
+    mY = limsY(1); MY = limsY(2); ysp = limsY(3); ystf = limsY(4); ysigf = limsY(5);
 end
 
 [xdata,mVar,semVar,combs,p,h] = get_vals_RMA(mData,ra,facs,gaps);
@@ -26,7 +26,7 @@ end
 
 [hbs,maxY] = plotBarsWithSigLines(mVar,semVar,combs,[h p],'colors',tcolors,'sigColor','k',...
 'ySpacing',ysp,'sigTestName','','sigLineWidth',0.25,'BaseValue',0.01,'capsize',1,...
-'xdata',xdata,'sigFontSize',7,'sigAsteriskFontSize',7,'barWidth',0.5,'sigLinesStartYFactor',0.05);
+'xdata',xdata,'sigFontSize',7,'sigAsteriskFontSize',7,'barWidth',0.5,'sigLinesStartYFactor',ystf,'sigAsteriskyshift',ysigf);
 
 if ~exist('MY','var')
     MY = maxY;
