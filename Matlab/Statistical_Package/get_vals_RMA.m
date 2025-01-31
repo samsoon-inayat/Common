@@ -44,6 +44,7 @@ if nfac == 1
     mcs = multcompare(ra.rm,facs,'ComparisonType',posthoc,'Alpha',alpha);
     [combs,p] = RMA_populate_combs_and_ps(ra.rm,EMs,mcs);
     h = p < alpha;
+    [combs,p,h] = rearrange_combs(combs,p,h);
 end
 
 if nfac == 2
@@ -72,6 +73,22 @@ if nfac == 2
     if strcmp(simple,'yes')
         h = eliminate_alternate_combs(combs,p,h,nB);
     end
+    [combs,p,h] = rearrange_combs(combs,p,h);
+
 end
 
-[combs,p,h] = rearrange_combs(combs,p,h);
+if nfac == 3
+    fac1 = facs{1};
+    fac2 = facs{2};
+    fac3 = facs{3};
+    Lev1 = ra.within.levels(strcmp(ra.within.factors,fac1));
+    Lev2 = ra.within.levels(strcmp(ra.within.factors,fac2));
+    Lev3 = ra.within.levels(strcmp(ra.within.factors,fac3));
+    nB = repmat(Lev3,1,Lev2);
+    nB = repmat(nB,1,Lev1)
+    xdata = make_xdata(nB,gaps);
+    combs = [];
+    p = [];
+    h = [];
+end
+

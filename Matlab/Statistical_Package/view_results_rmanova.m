@@ -17,8 +17,12 @@ end
 [xdata,mVar,semVar,combs,p,h] = get_vals_RMA(mData,ra,facs,gaps);
 
 if get_p_val_ranova(ra,facs{1}) > ra.alpha
-%     combs = [];
+     % combs = [];
 end
+
+% if length(facs) > 3
+%     combs = [];
+% end
 
 if ~exist('ysp','var')
     ysp = max(mVar)/10;

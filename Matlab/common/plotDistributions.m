@@ -27,6 +27,18 @@ if nargin == 1
 end
 
 
+if nargin == 2
+    if ismatrix(distD)
+        for rr = 1:size(distD,1)
+            [ks.h,ks.p,ks.ks2stat] = kstest2(distD{rr,1},distD{rr,2});
+            ks.DF1 = length(distD{rr,1}); ks.DF2 = length(distD{rr,2});
+            print_for_manuscript(ks,'KS2')
+        end
+    end
+    return;
+end
+
+
 
 % allD = [];
 % for ii = 1:length(distD)
