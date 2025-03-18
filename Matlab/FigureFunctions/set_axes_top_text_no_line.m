@@ -6,24 +6,33 @@ hf_pos = get(hf,'Position');
   if strcmp(str,'ns');
       shifts = shifts + [0 0.02 0 0];
   end
+
 for ii = 1:length(sel_ax_i)
     sel_ax = sel_ax_i(ii);
+    oldUnits = get(sel_ax, 'Units');
+    set(sel_ax, 'Units', 'inches');
     pos = get(sel_ax,'position');
+    set(sel_ax, 'Units', oldUnits);
     xlnu1(ii) = pos(1)/hf_pos(3);
     xlnu2(ii) = (pos(1)+pos(3))/hf_pos(3);
+    ylnu1(ii) = pos(2)/hf_pos(4);
     ylnu2(ii) = (pos(2)+pos(4))/hf_pos(4);
 end
 
 mnx = min(xlnu1);%-0.2;
 Mnx = max(xlnu2);
 
-ylnu = ylnu2(1) + ylnu2(1)/15;
+mny = min(ylnu1);%-0.2;
+Mny = max(ylnu2);
+
+% ylnu = ylnu2(1);% + ylnu2(1)/15;
 
 % annotation('line',[mnx Mnx],[ylnu ylnu],'linewidth',0.25,'Color','b','linestyle','-');
 
-mofl = mnx + ((Mnx - mnx)/2);
+% mofl = mnx + ((Mnx - mnx)/2);
+% mofly = mny + ((Mny - mny)/2);
 
-sizetxt = [mnx ylnu diff([mnx Mnx]) ylnu/10];
+sizetxt = [mnx mny diff([mnx Mnx]) diff([mny Mny])];
 
 if exist('shifts','var')
     sizetxt = sizetxt + shifts;
