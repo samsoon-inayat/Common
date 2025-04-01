@@ -32,8 +32,8 @@ if isvector(data)
     txt = sprintf('(average: %%.%df; median: %%.%df; standard error: %%.%df; standard deviation: %%.%df; range: %%.%df,%%.%df)',decimal_places,decimal_places,decimal_places,decimal_places,decimal_places,decimal_places);
     cmdTxt = sprintf('out.txt = sprintf(''%s'',avg,med,se,sd,minD,maxD);',txt);
     eval(cmdTxt);
-    txt = sprintf('%%.%df %%c %%.%df (range: %%.%df, %%.%df, median: %%.%df)',decimal_places,decimal_places,decimal_places,decimal_places,decimal_places);
-    cmdTxt = sprintf('atxt = sprintf(''mean %%c sem, %s'',pmchar,avg,pmchar,se,minD,maxD,med);',txt);
+    txt = sprintf('%%.%df %%c %%.%df, range: %%.%df, %%.%df, median: %%.%df)',decimal_places,decimal_places,decimal_places,decimal_places,decimal_places);
+    cmdTxt = sprintf('atxt = sprintf(''(mean %%c sem: %s'',pmchar,avg,pmchar,se,minD,maxD,med);',txt);
     pmchar=char(177);
     eval(cmdTxt);
     disp(atxt);

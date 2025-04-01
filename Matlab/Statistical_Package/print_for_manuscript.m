@@ -14,40 +14,57 @@ end
 
 if strcmp(tst,'ANOVA')
     disp(sprintf('\n'))
-    nbf = ra.number_of_between_factors;
-    nwf = ra.number_of_within_factors;
-
-    if nbf == 0
-        for ii = 1:2:size(ra.ranova,1)
-            F = ra.ranova.F(ii);
-            DF1 = ra.ranova.DF(ii); DF2 = ra.ranova.DF(ii+1); 
-            p = ra.ranova{ii,ra.selected_pval_col};
-            eta = ra.ranova.Eta2{ii}; etaG = ra.ranova.Eta2G{ii}; vtxt = ra.ranova.Row{ii};
-            disptxt(vtxt,DF1,DF2,F,p,etaG,ra.alpha);
+    tbl = ra.ranova;
+    rows = tbl.Properties.RowNames; cols = tbl.Properties.VariableNames;
+    idxCol = strcmp(cols,'pValue_sel'); idxF = strcmp(cols,'F'); idxDF = strcmp(cols,'DF');
+    idxEta2 = strcmp(cols,'Eta2');  idxEta2G = strcmp(cols,'Eta2G');
+    rowsi = ~(cellfun(@isempty,strfind(rows,'Intercept')));
+    
+    for ii = 1:length(rows)
+        if rowsi(ii)
+            F = ra.ranova{ii,idxF}; DF1 = ra.ranova{ii,idxDF}; DF2 = ra.ranova{ii+1,idxDF};
+            p = ra.ranova{ii,idxCol};
+            eta = cell2mat(ra.ranova{ii,idxEta2}); etaG = cell2mat(ra.ranova{ii,idxEta2G}); vtxt = rows{ii};
+            if p < ra.alpha
+                disptxt(vtxt,DF1,DF2,F,p,etaG,ra.alpha);
+            end
         end
     end
-    if nbf == 1
-        ii = 2;
-        F = ra.ranova.F(ii);
-        DF1 = ra.ranova.DF(ii); DF2 = ra.ranova.DF(ii+1); 
-        p = ra.ranova{ii,ra.selected_pval_col};
-        eta = ra.ranova.Eta2{ii}; etaG = ra.ranova.Eta2G{ii}; vtxt = ra.ranova.Row{ii};
-        disptxt(vtxt,DF1,DF2,F,p,etaG,ra.alpha);
-        for ii = 4:3:size(ra.ranova,1)
-            F = ra.ranova.F(ii);
-            DF1 = ra.ranova.DF(ii); DF2 = ra.ranova.DF(ii+2); 
-            p = ra.ranova{ii,ra.selected_pval_col};
-            eta = ra.ranova.Eta2{ii}; etaG = ra.ranova.Eta2G{ii}; vtxt = ra.ranova.Row{ii};
-            disptxt(vtxt,DF1,DF2,F,p,etaG,ra.alpha);
-        end
-        for ii = 5:3:size(ra.ranova,1)
-            F = ra.ranova.F(ii);
-            DF1 = ra.ranova.DF(ii); DF2 = ra.ranova.DF(ii+1); 
-            p = ra.ranova{ii,ra.selected_pval_col};
-            eta = ra.ranova.Eta2{ii}; etaG = ra.ranova.Eta2G{ii}; vtxt = ra.ranova.Row{ii};
-            disptxt(vtxt,DF1,DF2,F,p,etaG,ra.alpha);
-        end
-    end
+    % 
+    % nbf = ra.number_of_between_factors;
+    % nwf = ra.number_of_within_factors;
+    % 
+    % if nbf == 0
+    %     for ii = 1:2:size(ra.ranova,1)
+    %         F = ra.ranova.F(ii);
+    %         DF1 = ra.ranova.DF(ii); DF2 = ra.ranova.DF(ii+1); 
+    %         p = ra.ranova{ii,ra.selected_pval_col};
+    %         eta = ra.ranova.Eta2{ii}; etaG = ra.ranova.Eta2G{ii}; vtxt = ra.ranova.Row{ii};
+    %         disptxt(vtxt,DF1,DF2,F,p,etaG,ra.alpha);
+    %     end
+    % end
+    % if nbf == 1
+    %     ii = 2;
+    %     F = ra.ranova.F(ii);
+    %     DF1 = ra.ranova.DF(ii); DF2 = ra.ranova.DF(ii+1); 
+    %     p = ra.ranova{ii,ra.selected_pval_col};
+    %     eta = ra.ranova.Eta2{ii}; etaG = ra.ranova.Eta2G{ii}; vtxt = ra.ranova.Row{ii};
+    %     disptxt(vtxt,DF1,DF2,F,p,etaG,ra.alpha);
+    %     for ii = 4:3:size(ra.ranova,1)
+    %         F = ra.ranova.F(ii);
+    %         DF1 = ra.ranova.DF(ii); DF2 = ra.ranova.DF(ii+2); 
+    %         p = ra.ranova{ii,ra.selected_pval_col};
+    %         eta = ra.ranova.Eta2{ii}; etaG = ra.ranova.Eta2G{ii}; vtxt = ra.ranova.Row{ii};
+    %         disptxt(vtxt,DF1,DF2,F,p,etaG,ra.alpha);
+    %     end
+    %     for ii = 5:3:size(ra.ranova,1)
+    %         F = ra.ranova.F(ii);
+    %         DF1 = ra.ranova.DF(ii); DF2 = ra.ranova.DF(ii+1); 
+    %         p = ra.ranova{ii,ra.selected_pval_col};
+    %         eta = ra.ranova.Eta2{ii}; etaG = ra.ranova.Eta2G{ii}; vtxt = ra.ranova.Row{ii};
+    %         disptxt(vtxt,DF1,DF2,F,p,etaG,ra.alpha);
+    %     end
+    % end
     disp(sprintf('\n'))
 end
 
