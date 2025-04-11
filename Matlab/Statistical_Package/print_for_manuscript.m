@@ -16,9 +16,11 @@ if strcmp(tst,'ANOVA')
     disp(sprintf('\n'))
     tbl = ra.ranova;
     rows = tbl.Properties.RowNames; cols = tbl.Properties.VariableNames;
-    idxCol = strcmp(cols,'pValue_sel'); idxF = strcmp(cols,'F'); idxDF = strcmp(cols,'DF');
+    % idxCol = strcmp(cols,'pValue_sel'); 
+    idxF = strcmp(cols,'F'); idxDF = strcmp(cols,'DF');
     idxEta2 = strcmp(cols,'Eta2');  idxEta2G = strcmp(cols,'Eta2G');
     rowsi = ~(cellfun(@isempty,strfind(rows,'Intercept')));
+    idxCol = ra.selected_pval_col;
     
     for ii = 1:length(rows)
         if rowsi(ii)

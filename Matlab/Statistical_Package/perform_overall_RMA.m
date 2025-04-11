@@ -1,4 +1,4 @@
-function perform_overal_RMA (data,facs)
+function perform_overall_RMA (data,facs)
 
 facs_names = facs{1};
 facs_levels = facs{2};

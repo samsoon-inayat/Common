@@ -26,6 +26,7 @@ if nbf == 0
         tredV = mat2cell(withinT(ii,:),[1],ones(1,size(withinT,2)));
         [dataTR,withinR] = reduce_within_between(dataT,within,redF,tredV);
         ras{ii} = RMA(dataTR,withinR,{alpha,{''}});
+        print_for_manuscript(ras{ii});
         tempstr = [];
         for jj = 1:length(redFi)
             tempstr = sprintf('%s :: %s - %d',tempstr,redFi{jj},withinT(ii,jj));
