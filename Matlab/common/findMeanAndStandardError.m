@@ -4,9 +4,15 @@ if isvector(data)
     md = nanmean(data);
     sem = nanstd(data)/sqrt(length(data));
     med = nanmedian(data);
-    if nargout > 2
+    if nargout == 4
         varargout{1} = nanstd(data);
         varargout{2} = med;
+    end
+    if nargout == 6
+        varargout{1} = nanstd(data);
+        varargout{2} = med;
+        varargout{3} = nanmin(data);
+        varargout{4} = nanmax(data);
     end
 %     pmchar=char(177); any_text = sprintf('%.2f%c%.2f',md,pmchar,sem); 
 %     disp(any_text);

@@ -1,7 +1,7 @@
 function ht = set_sub_graph_text(ff,gv,ticklabels,shift_line,shift_txt)
 mData = evalin('base','mData');
 magfac = mData.magfac;
-
+% gv = grouping variable
 
 hf_pos = get(ff.hf,'Position'); 
 

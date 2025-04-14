@@ -1,5 +1,22 @@
 function out = descriptiveStatistics (data,varargin)
 
+if isstruct(data)
+    decimal_places = 3;
+    varnames = fieldnames(data);
+    for ii = 1:length(varnames)
+        cmdTxt = sprintf('%s = data.%s;',varnames{ii},varnames{ii}); eval(cmdTxt)
+    end
+    txt = sprintf('(average: %%.%df; median: %%.%df; standard error: %%.%df; standard deviation: %%.%df; range: %%.%df,%%.%df)',decimal_places,decimal_places,decimal_places,decimal_places,decimal_places,decimal_places);
+    % cmdTxt = sprintf('out.txt = sprintf(''%s'',avg,med,se,sd,minD,maxD);',txt);
+    % eval(cmdTxt);
+    txt = sprintf('%%.%df %%c %%.%df, range: %%.%df, %%.%df, median: %%.%df)',decimal_places,decimal_places,decimal_places,decimal_places,decimal_places);
+    cmdTxt = sprintf('atxt = sprintf(''(mean %%c sem: %s'',pmchar,avg,pmchar,se,minD,maxD,med);',txt);
+    pmchar=char(177);
+    eval(cmdTxt);
+    disp(atxt);
+    return;
+end
+
 p = inputParser;
 addRequired(p,'data',@isnumeric);
 addOptional(p,'dimension',1,@isnumeric);
@@ -37,10 +54,10 @@ if isvector(data)
     pmchar=char(177);
     eval(cmdTxt);
     disp(atxt);
-    hf = get_figure(555,[10,10,3,0.15]);
-    text(-0.1,0,atxt,'FontSize',6);
-    axis off;
-    mData = evalin('base','mData');
-    save_pdf(hf,mData.pdf_folder,'ds.pdf',600);
-    close(hf);
+    % hf = get_figure(555,[10,10,3,0.15]);
+    % text(-0.1,0,atxt,'FontSize',6);
+    % axis off;
+    % % mData = evalin('base','mData');
+    % % save_pdf(hf,mData.pdf_folder,'ds.pdf',600);
+    % close(hf);
 end

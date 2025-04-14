@@ -39,6 +39,7 @@ rm = fitrm(between,wilk_text);
 out.number_of_between_factors = nbf;
 out.number_of_within_factors = nwf;
 out.rm = rm;
+out.ds = get_ds(between);
 out.mauchly = mauchly(rm);
 out.ranova = rm.ranova('WithinModel',rm.WithinModel);
 ranovatbl = out.ranova;
@@ -489,3 +490,6 @@ end
 
 
 
+function ds = get_ds(between)
+betweenD = table2array(between);
+[ds.avg,ds.se,ds.sd,ds.med,ds.minD,ds.maxD] = findMeanAndStandardError(betweenD(:));
