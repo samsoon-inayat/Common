@@ -21,7 +21,7 @@ end
 
 [between_factors,nbf] = get_between_factors(between);
 nwf = size(within,2);
-if nbf > 1 || nwf > 5
+if nbf > 1 || nwf > 6
     disp('number of between factors <=1 or number of within factors <=3');
     error;
 end
@@ -179,6 +179,9 @@ if nwf == 4
 end
 if nwf == 5
     within_model = [within_factors{1} '*' within_factors{2} '*' within_factors{3} '*' within_factors{4} '*' within_factors{5}];
+end
+if nwf == 6
+    within_model = [within_factors{1} '*' within_factors{2} '*' within_factors{3} '*' within_factors{4} '*' within_factors{5} '*' within_factors{6}];
 end
 
 function [between_factors,nbf] = get_between_factors(between)

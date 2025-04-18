@@ -47,8 +47,8 @@ for ii = 1:nwf(1)
                     end
                     for nn = 1:nwf(6)
                         wvar(ind,:) = [ii jj kk ll mm nn];
-                        dataT_var_names{ind} = sprintf('%s%d_%s%d_%s%d_%s%d_%s%d_%s%d',FL(1),ii,FL(2),jj,FL(3),kk,FL(4),ll,FL(5),mm,FL(6),nn);
-                        xlabels{ind} = sprintf('%s%d-%s%d-%s%d-%s%d-%s%d-%s%d',FL(1),ii,FL(2),jj,FL(3),kk,FL(4),ll,FL(5),mm,FL(6),nn);
+                        dataT_var_names{ind} = sprintf('%s%d_%s%d_%s%d_%s%d_%s%d_%s%d',FL(1),ii,FL(2),jj,FL(3),kk,FL(4),ll,FL(5),mm),FL(6),nn);
+                        xlabels{ind} = sprintf('%s%d-%s%d-%s%d-%s%d-%s%d-_%s%d',FL(1),ii,FL(2),jj,FL(3),kk,FL(4),ll,FL(5),mm,FL(6),nn));
                         ind = ind + 1;
                     end
                 end
