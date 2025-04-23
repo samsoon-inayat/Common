@@ -1,5 +1,13 @@
 function raR = RMA_subset (ra,fac_n,sb)
 
+% if iscell(ra)
+%     for ff = 1:length(fac_n)
+%         tfac = fac_n{ff};
+%         tra = ra{ff};
+%         raR{ff} = RMA_subset(tra,tfac);
+%     end
+%     return;
+% end
 
 if isstr(fac_n)
     fac_n = find(strcmp(ra.within.factors,fac_n));
