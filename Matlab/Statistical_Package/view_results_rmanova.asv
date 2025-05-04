@@ -10,19 +10,13 @@ end
 
 [xdata,mVar,semVar,combs,p,h] = get_vals_RMA(mData,ra,facs,gaps,'yes');
 
-if length(facs) == 3
-    alpha = facs{3};
-else
-    alpha = ra.alpha;
-end
 
 if isempty(limsY)
-    mY = min([0 min(mVar - semVar)]);
-    nsl = sum(p<alpha);
-    ysp = max(mVar+semVar)/10;
+    mY = min(mVar - semVar);
+    
+    ysp = max(mVar)/10;
     ystf = ysp;
-    ysigf = ysp/10;
-    MY = max(mVar + semVar) + nsl*ysp + ystf + nsl*ysigf;
+    ysigf = ysp;
 else
     mY = limsY(1); MY = limsY(2); ysp = limsY(3); ystf = limsY(4); ysigf = limsY(5);
 end
