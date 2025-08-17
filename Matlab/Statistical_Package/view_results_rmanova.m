@@ -8,13 +8,14 @@ else
     axes(ha);
 end
 
-[xdata,mVar,semVar,combs,p,h] = get_vals_RMA(mData,ra,facs,gaps,'yes');
+[xdata,mVar,semVar,combs,p,h] = get_vals_RMA(mData,ra,facs,gaps,'no');
 
-if length(facs) == 3
+try 
     alpha = facs{3};
-else
+catch
     alpha = ra.alpha;
 end
+
 
 if isempty(limsY)
     mY = min([0 min(mVar - semVar)]);
