@@ -19,7 +19,7 @@ else
 end
 ylnu = ylnu2(1) + shifts_line;
 
-annotation('line',[mnx Mnx],[ylnu ylnu],'linewidth',0.25,'Color','b','linestyle','-');
+annotation('line',[mnx Mnx],[ylnu ylnu],'linewidth',0.25,'Color','k','linestyle','-');
 
 mofl = mnx + ((Mnx - mnx)/2);
 
