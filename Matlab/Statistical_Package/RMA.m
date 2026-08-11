@@ -40,6 +40,7 @@ out.number_of_between_factors = nbf;
 out.number_of_within_factors = nwf;
 out.rm = rm;
 out.ds = get_ds(between);
+% out.DS = descriptiveStatistics(between);
 out.mauchly = mauchly(rm);
 out.ranova = rm.ranova('WithinModel',rm.WithinModel);
 ranovatbl = out.ranova;
